@@ -1,0 +1,25 @@
+﻿Edificio,Disponibilidad_Promedio,Tasa_Error_Promedio,InOctets_Maximo,Satisfaccion_Promedio,Total_Encuestas,Frecuencia_Lentitud,Diagnostico_Tecnico,Correlacion
+,,,,1.4,2.0,5.0,Sin datos técnicos,N/A
+,,,,2.55,8.0,4.0,Sin datos técnicos,N/A
+,,,,2.73,32.0,2.72,Sin datos técnicos,N/A
+,,,,2.83,35.0,2.56,Sin datos técnicos,N/A
+Edificio X (Mecatrónica),88.66,7.149,162.41,2.85,88.0,2.86,CRÍTICO - Fallas técnicas,️ MEDIA (Revisar cobertura)
+,,,,2.89,21.0,3.24,Sin datos técnicos,N/A
+,,,,2.9,58.0,2.95,Sin datos técnicos,N/A
+,,,,2.94,46.0,3.74,Sin datos técnicos,N/A
+,,,,2.94,68.0,3.0,Sin datos técnicos,N/A
+,,,,2.97,30.0,3.27,Sin datos técnicos,N/A
+Edificio L (Química),90.46,5.056,148.73,2.97,58.0,2.71,CRÍTICO - Fallas técnicas,️ MEDIA (Revisar cobertura)
+,,,,2.98,42.0,3.21,Sin datos técnicos,N/A
+Edificio W (Industrial),97.06,1.66,107.79,3.03,67.0,2.73,CALIDAD - Errores de red,️ MEDIA (Revisar cobertura)
+Edificio O (Biblioteca),99.53,0.35,80.1,3.1,55.0,3.39,NORMAL,️ MEDIA (Revisar cobertura)
+,,,,3.14,50.0,3.38,Sin datos técnicos,N/A
+,,,,3.18,57.0,2.98,Sin datos técnicos,N/A
+Biblioteca,99.77,0.195,75.01,,,,NORMAL,N/A
+Edificio A (UDIM),99.77,0.147,93.45,,,,NORMAL,N/A
+Edificio D (Química/Lab),99.17,0.543,94.33,,,,NORMAL,N/A
+Edificio M (Admin),99.79,0.211,58.74,,,,NORMAL,N/A
+Edificio N (Dirección),99.74,0.278,58.45,,,,NORMAL,N/A
+Edificio Q (Económico),98.7,0.621,127.21,,,,NORMAL,N/A
+Edificio S (Cómputo),99.45,0.304,109.18,,,,NORMAL,N/A
+Edificio T (Eléctrica),98.7,0.861,91.53,,,,NORMAL,N/A

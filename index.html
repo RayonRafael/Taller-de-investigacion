@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITVER Network OS - Bento NOC v4.4</title>
+    
+    <!-- Librerías Externas -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        tecnm: { blue: '#1B396A', gray: '#807E82', red: '#E63946', green: '#2A9D8F', amber: '#F59E0B', bg: '#F5F7FA', dark: '#0F172A' }
+                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'], outfit: ['Outfit', 'sans-serif'], mono: ['Fira Code', 'monospace'] },
+                },
+            },
+        }
+    </script>
+
+    <style type="text/css">
+        html { scroll-behavior: smooth; }
+        body { background-color: #F5F7FA; color: #1a1a1a; -webkit-font-smoothing: antialiased; overflow-x: hidden; transition: all 0.5s ease; }
+        
+        /* 🏢 MODO ADMIN (BENTO LIGHT PROFESSIONAL) */
+        body.is-admin { background-color: #E2E8F0; } /* Gris técnico claro */
+        body.is-admin .admin-card { background: white; border: 1px solid rgba(0,0,0,0.05); color: #1B396A; border-radius: 2rem; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); }
+        body.is-admin .admin-title { color: #1B396A; }
+        body.is-admin .admin-text { color: #64748b; }
+        body.is-admin .table-header { background: #F8FAFC; color: #64748b; border-bottom: 2px solid #E2E8F0; }
+        body.is-admin .table-row:hover { background: #F1F5F9; }
+
+        /* 🎬 Pantalla de Transición Cinematic */
+        #transition-overlay {
+            position: fixed; inset: 0; background: #1B396A; z-index: 9999;
+            display: none; align-items: center; justify-content: center;
+            clip-path: circle(0% at 50% 50%);
+            transition: clip-path 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+        #transition-overlay.active { clip-path: circle(150% at 50% 50%); }
+        .loading-bar { width: 200px; height: 4px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; margin-top: 20px; }
+        .loading-bar-inner { width: 0%; height: 100%; background: white; animation: loadProgress 1.5s ease-in-out forwards; }
+        @keyframes loadProgress { to { width: 100%; } }
+
+        /* 👮‍♂️ Roles Visibility */
+        .admin-only { display: none !important; }
+        body.is-admin .admin-only { display: block !important; }
+        body.is-admin .admin-only-flex { display: flex !important; }
+        body.is-admin .admin-only-grid { display: grid !important; }
+        body.is-admin .student-hide { display: none !important; }
+        
+        /* 🚨 Alertas */
+        #alert-container { position: fixed; top: 100px; right: 20px; z-index: 2000; display: flex; flex-direction: column; gap: 12px; width: calc(100% - 40px); max-width: 320px; pointer-events: none; }
+        .alert-toast { background: white; border-left: 6px solid #E63946; padding: 1rem; border-radius: 16px; box-shadow: 0 15px 30px rgba(0,0,0,0.12); pointer-events: auto; animation: slideIn 0.5s ease-out; }
+
+        /* 🗺️ Mapa */
+        #heatmap-canvas { pointer-events: none; mix-blend-mode: multiply; opacity: 0.6; z-index: 10; transition: opacity 0.5s; }
+        .marker-pulse { animation: pulse 2s infinite ease-in-out; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.3); opacity: 0.7; } }
+        
+        .lab-ap { width: 28px; height: 28px; background: #2A9D8F; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; position: absolute; z-index: 40; box-shadow: 0 0 15px rgba(42,157,143,0.6); border: 2px solid white; font-size: 10px; }
+        .terminal { background: #0F172A; color: #00FF00; font-family: 'Fira Code', monospace; padding: 15px; border-radius: 1.5rem; height: 180px; overflow-y: auto; font-size: 9px; }
+        .terminal-input { background: transparent; border: none; outline: none; color: #00FF00; width: 100%; font-size: 9px; }
+
+        #login-modal { position: fixed; inset: 0; z-index: 4000; background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(12px); display: none; align-items: center; justify-content: center; padding: 20px; }
+        
+        .best-node-glow { animation: bestGlow 1.5s infinite alternate; }
+        @keyframes bestGlow { from { box-shadow: 0 0 5px #2A9D8F; transform: scale(1); } to { box-shadow: 0 0 25px #2A9D8F; transform: scale(1.2); } }
+
+        .custom-scroll::-webkit-scrollbar { width: 5px; }
+        .custom-scroll::-webkit-scrollbar-track { background: transparent; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #1B396A; border-radius: 10px; }
+
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-bento { animation: fadeUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; opacity: 0; }
+        .delay-1 { animation-delay: 0.1s; } .delay-2 { animation-delay: 0.2s; } .delay-3 { animation-delay: 0.3s; }
+    </style>
+</head>
+<body class="bg-slate-50" id="body-main">
+
+    <!-- 🎬 TRANSITION OVERLAY -->
+    <div id="transition-overlay">
+        <div class="text-center text-white">
+            <img src="public/assets/img/Logo-TecNM.png" class="h-16 mx-auto mb-6 brightness-0 invert opacity-80">
+            <h2 id="transition-text" class="text-2xl font-black font-outfit uppercase tracking-widest italic">Accediendo al Centro de Mando...</h2>
+            <div class="loading-bar mx-auto"><div class="loading-bar-inner"></div></div>
+        </div>
+    </div>
+
+    <!-- 🔑 LOGIN MODAL -->
+    <div id="login-modal">
+        <div class="bg-white p-8 md:p-12 rounded-[3rem] shadow-2xl max-w-sm w-full text-center border border-white/20">
+            <h3 class="text-2xl font-black text-tecnm-blue mb-2 font-outfit uppercase tracking-tighter italic">NOC Authentication</h3>
+            <p class="text-slate-500 text-[10px] mb-8 font-black uppercase tracking-widest">ITVER Network Management</p>
+            <div class="space-y-4 text-left">
+                <input type="text" id="admin-user" placeholder="admin" class="w-full p-4 rounded-2xl bg-slate-100 border-none outline-none font-bold text-xs">
+                <input type="password" id="admin-pass" placeholder="itver2026" class="w-full p-4 rounded-2xl bg-slate-100 border-none outline-none font-bold text-xs">
+                <p id="login-error" class="text-tecnm-red text-[10px] font-bold hidden text-center italic">Acceso denegado.</p>
+                <button onclick="loginAdmin()" class="w-full bg-tecnm-blue text-white py-4 rounded-2xl font-black shadow-xl hover:scale-105 transition-all mt-4 uppercase text-xs tracking-[0.2em]">Conectar al NOC</button>
+                <button onclick="closeLogin()" class="w-full text-slate-400 font-bold text-[10px] uppercase mt-4 text-center">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 1. HEADER -->
+    <header class="sticky top-0 w-full z-50 bg-tecnm-blue py-3 px-4 md:px-8 flex justify-between items-center shadow-lg border-b-4 border-tecnm-gray transition-all" id="main-header">
+        <div class="flex items-center space-x-4 md:space-x-6">
+            <img src="public/assets/img/Logo-TecNM.png" class="h-8 md:h-10 object-contain brightness-0 invert" alt="TecNM">
+            <div class="w-px h-6 md:h-8 bg-white/20"></div>
+            <img src="public/assets/img/itver.png" class="h-8 md:h-10 object-contain brightness-0 invert" alt="ITV">
+            <div class="hidden sm:block ml-2">
+                <h1 class="font-black text-white tracking-tighter text-sm md:text-lg font-outfit uppercase italic">Red ITVER v4.4</h1>
+                <div id="simulation-clock" class="text-[8px] font-bold text-slate-300 uppercase tracking-widest">--:--:--</div>
+            </div>
+        </div>
+        <div class="flex items-center gap-3 md:gap-6">
+            <div class="flex items-center gap-2 md:gap-3 bg-white/10 px-3 md:px-4 py-1.5 md:py-2 rounded-full border border-white/10">
+                <div id="role-icon" class="w-5 h-5 md:w-6 md:h-6 rounded-full bg-white flex items-center justify-center text-tecnm-blue text-[9px] font-black transition-all">E</div>
+                <span id="role-text" class="text-[8px] md:text-[10px] font-black text-white uppercase tracking-widest">Estudiante</span>
+            </div>
+            <button id="admin-login-trigger" onclick="openLogin()" class="bg-white text-tecnm-blue px-4 md:px-5 py-2 md:py-2.5 rounded-xl text-[9px] md:text-[10px] font-black shadow-lg hover:bg-slate-100 transition-all uppercase tracking-widest">INGRESAR NOC</button>
+            <button id="logout-btn" onclick="logout()" class="admin-only-flex hidden text-white hover:scale-110 transition-all font-black text-xs uppercase flex items-center gap-2 bg-tecnm-red/20 px-3 py-2 rounded-xl border border-white/20"><i class="fas fa-power-off"></i> SALIR</button>
+        </div>
+    </header>
+
+    <div id="alert-container"></div>
+
+    <main class="container mx-auto px-4 md:px-6 py-8" id="page-content">
+
+        <!-- 2. SECCIÓN ESTUDIANTE (LIGHT) -->
+        <div id="student-view-area" class="student-hide animate-fade-in">
+            <section class="py-8 md:py-16 text-center">
+                <span class="bg-tecnm-blue/10 text-tecnm-blue px-6 py-2 rounded-full text-[9px] md:text-[10px] font-black uppercase tracking-widest mb-6 inline-block italic">Centro de Diagnóstico Académico</span>
+                <h2 class="text-4xl md:text-7xl font-black text-tecnm-blue mb-6 font-outfit leading-tight tracking-tighter italic uppercase">Monitor ITVER <br><span class="text-tecnm-red">Institucional</span></h2>
+                <p class="text-base md:text-lg text-slate-500 max-w-3xl mx-auto font-medium px-4">Plataforma técnica para el monitoreo de infraestructura de red campus Veracruz.</p>
+            </section>
+
+            <section class="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 mb-12">
+                <div class="bg-tecnm-blue p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.5rem] shadow-2xl text-white flex flex-col justify-between relative overflow-hidden group border-b-8 border-tecnm-amber">
+                    <div><p class="text-[9px] font-black uppercase tracking-[0.2em] opacity-60 mb-2 italic">Recomendación Actual</p><h4 class="text-2xl md:text-3xl font-black font-outfit mb-4 italic leading-tight">Mejor Conexión</h4><div id="best-connection-info"><p class="text-sm md:text-base font-black text-tecnm-amber mb-1 uppercase italic tracking-widest" id="best-building-name">CARGANDO...</p><p class="text-xs opacity-70">Edificio con mayor estabilidad SNMP.</p></div></div>
+                    <div class="mt-8 pt-4 border-t border-white/10 flex items-center gap-3"><div class="w-2 h-2 rounded-full bg-tecnm-green animate-ping"></div><span class="text-[8px] font-black uppercase tracking-widest">En Tiempo Real</span></div>
+                </div>
+                <div class="lg:col-span-2 bg-tecnm-amber p-8 md:p-12 rounded-[2.5rem] md:rounded-[4rem] shadow-xl flex flex-col md:flex-row items-center gap-8 md:gap-12 border-b-8 border-tecnm-blue">
+                    <div class="flex-1 text-center md:text-left"><h4 class="text-2xl md:text-4xl font-black text-tecnm-blue font-outfit uppercase mb-3 italic tracking-tighter">Speedtest Interno</h4><p class="text-sm md:text-base text-tecnm-blue/70 font-medium leading-relaxed">Analiza tu velocidad de bajada para el reporte de satisfacción UX.</p></div>
+                    <div class="bg-white p-8 md:p-10 rounded-[3rem] shadow-2xl text-center min-w-[200px] md:min-w-[240px]"><div class="text-5xl md:text-7xl font-black text-tecnm-blue mb-1" id="speed-value">--.-</div><p class="text-[10px] font-black text-tecnm-gray uppercase mb-8 tracking-widest">Mbps</p><button onclick="runSpeedtest()" class="w-full bg-tecnm-blue text-white py-4 rounded-2xl font-black text-[10px] hover:scale-105 transition-all uppercase tracking-[0.2em]">Medir Ahora</button></div>
+                </div>
+            </section>
+        </div>
+
+        <!-- 3. SECCIÓN ADMINISTRADOR (BENTO PROFESSIONAL LIGHT) -->
+        <div id="admin-view-area" class="admin-only hidden w-full space-y-8 animate-fade-in">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                <!-- KPI BENTO -->
+                <div class="admin-card p-8 flex flex-col justify-center animate-bento delay-1 border-t-8 border-tecnm-blue">
+                    <p class="text-[10px] font-black uppercase tracking-[0.2em] opacity-50 mb-1">Carga de Tráfico</p>
+                    <h4 class="text-4xl font-black font-outfit text-tecnm-blue italic" id="admin-traf-val">120<span class="text-sm opacity-50 ml-2">Mbps</span></h4>
+                </div>
+                <div class="admin-card p-8 flex flex-col justify-center animate-bento delay-1 border-t-8 border-tecnm-red">
+                    <p class="text-[10px] font-black uppercase tracking-[0.2em] opacity-50 mb-1">Eventos Críticos</p>
+                    <h4 class="text-4xl font-black font-outfit text-tecnm-red italic" id="admin-crit-val">0</h4>
+                </div>
+
+                <!-- STUDENT INBOX BENTO -->
+                <div class="lg:col-span-2 admin-card p-8 flex flex-col relative overflow-hidden animate-bento delay-2 border-l-8 border-tecnm-amber">
+                    <div class="flex justify-between items-center mb-6"><h4 class="text-lg font-black font-outfit uppercase italic tracking-tighter">Buzón de Reportes Alumnos</h4><i class="fas fa-comment-dots text-tecnm-blue opacity-20"></i></div>
+                    <div id="student-reports-box" class="flex-1 overflow-y-auto space-y-3 pr-2 max-h-[160px] custom-scroll"><p class="text-[9px] opacity-40 italic text-center py-10 uppercase font-black">Esperando reportes...</p></div>
+                </div>
+
+                <!-- MAIN CHART BENTO -->
+                <div class="lg:col-span-3 admin-card p-10 animate-bento delay-2">
+                    <div class="flex flex-col md:flex-row justify-between items-center gap-6 mb-8">
+                        <div><h3 class="text-xl font-black uppercase tracking-tighter italic text-tecnm-blue">Dashboard de Telemetría</h3><p class="text-[9px] opacity-50 uppercase tracking-widest font-black">Estado de Puertos y Disponibilidad</p></div>
+                        <div class="flex bg-slate-100 p-1.5 rounded-2xl border border-slate-200">
+                            <button onclick="setTopology('actual')" id="top-actual" class="px-6 py-2.5 rounded-xl text-[9px] font-black transition-all bg-tecnm-red text-white shadow-md uppercase">Actual</button>
+                            <button onclick="setTopology('star')" id="top-star" class="px-6 py-2.5 rounded-xl text-[9px] font-black transition-all text-slate-400 uppercase">Propuesta</button>
+                        </div>
+                    </div>
+                    <div class="h-[300px]"><canvas id="mainChart"></canvas></div>
+                </div>
+
+                <!-- EXPORT BENTO -->
+                <div class="admin-card p-8 flex flex-col justify-center gap-4 animate-bento delay-3 border-b-8 border-tecnm-green">
+                    <p class="text-[10px] font-black uppercase tracking-[0.2em] text-tecnm-green opacity-80 text-center">Reporte Ejecutivo</p>
+                    <button onclick="exportCSV()" class="w-full bg-tecnm-green text-white py-5 rounded-3xl font-black text-[10px] uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-tecnm-green/20">Generar CSV</button>
+                </div>
+            </div>
+
+            <!-- MATRIZ SNMP VS UX (ADMIN PROFESSIONAL LIGHT) -->
+            <section class="admin-card overflow-hidden animate-bento delay-3">
+                <div class="p-10 border-b border-slate-100 bg-slate-50/50">
+                    <h3 class="text-2xl font-black uppercase tracking-tighter italic leading-none text-tecnm-blue">Matriz de Telemetría SNMP vs UX</h3>
+                    <p class="text-xs font-black text-tecnm-red uppercase tracking-[0.3em] mt-3 italic">Validado con 371 encuestas estudiantiles 2026</p>
+                </div>
+                <div class="overflow-x-auto custom-scroll">
+                    <table class="w-full text-left min-w-[800px]">
+                        <thead class="table-header text-[10px] font-black uppercase tracking-[0.2em]">
+                            <tr><th class="p-8">Ubicación / Nodo</th><th class="p-8">Disponibilidad</th><th class="p-8">Tasa Errores</th><th class="p-8">Satisfacción UX</th><th class="p-8 text-center">Status</th></tr>
+                        </thead>
+                        <tbody id="table-body-matrix" class="divide-y divide-slate-100"></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- 4. MAPA COMPARTIDO (DISEÑO PROFESIONAL) -->
+        <section class="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-12 mt-12" id="map-section">
+            <div class="lg:col-span-3 relative bg-white p-2 rounded-[3.5rem] md:rounded-[4.5rem] shadow-2xl overflow-hidden border border-black/5 admin-card">
+                <div class="absolute top-6 md:top-8 left-6 md:left-8 z-30 flex flex-wrap gap-3 no-print">
+                    <div class="glass px-4 md:px-6 py-3 md:py-4 rounded-[2rem] flex items-center gap-4 border border-tecnm-blue shadow-xl">
+                        <div class="admin-only hidden gap-2"><button onclick="toggleLabMode()" id="lab-btn" class="w-9 h-9 bg-slate-100 rounded-xl flex items-center justify-center text-tecnm-blue hover:bg-tecnm-green transition-all"><i class="fas fa-plus"></i></button><div class="w-px h-6 bg-slate-200"></div></div>
+                        <select id="map-mode" onchange="updateMapMode()" class="bg-transparent text-tecnm-blue text-[10px] font-black uppercase tracking-widest border-none outline-none cursor-pointer"><option value="markers">Vista Marcadores</option><option value="heatmap">Mapa Calor (Tráfico)</option></select>
+                    </div>
+                </div>
+                <div class="relative w-full overflow-auto custom-scroll" id="map-scroll-container">
+                    <div class="relative min-w-[800px]" id="map-container">
+                        <img src="public/assets/img/mapa-campus.png" class="w-full h-auto object-contain rounded-[3rem] md:rounded-[4rem]" id="main-map">
+                        <canvas id="heatmap-canvas" class="absolute top-0 left-0 w-full h-full transition-opacity"></canvas>
+                        <div id="map-markers" class="z-20"></div>
+                        <div id="lab-elements" class="absolute inset-0 z-40 pointer-events-none"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="drilldown-panel" class="flex flex-col gap-6 h-full">
+                <div class="bg-tecnm-blue p-8 md:p-10 rounded-[3rem] md:rounded-[4rem] text-white shadow-2xl border-l-[15px] border-tecnm-gray h-full flex flex-col overflow-hidden relative">
+                    <div id="drilldown-content" class="flex-1 relative z-10"><div class="text-center py-20 md:py-24 opacity-30"><i class="fas fa-server text-4xl mb-4"></i><p class="text-[10px] font-black uppercase tracking-widest italic">Seleccione Ubicación</p></div></div>
+                    <div id="terminal-section" class="admin-only hidden mt-6 relative z-10"><div class="terminal custom-scroll"><div id="terminal-output">NOC_LIGHT_OS_BOOT...</div><div class="flex mt-3 items-center border-t border-white/10 pt-2"><span class="mr-2 text-tecnm-green font-bold">#</span><input type="text" id="terminal-input" class="terminal-input" placeholder="CMD..."></div></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. REPORTES -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-20">
+            <div class="bg-white p-8 md:p-12 rounded-[3.5rem] md:rounded-[4rem] shadow-xl border border-black/5 border-t-8 border-tecnm-red admin-card">
+                <h3 class="text-2xl font-black text-tecnm-blue mb-10 font-outfit uppercase tracking-tighter italic">Incidencia Manual</h3>
+                <div class="space-y-6 text-left">
+                    <select id="incident-building" class="w-full p-5 rounded-2xl bg-slate-50 font-black border border-slate-200 outline-none text-xs text-tecnm-blue"></select>
+                    <textarea id="incident-desc" placeholder="Evidencia del problema..." class="w-full p-6 rounded-[2rem] bg-slate-50 border border-slate-200 outline-none text-sm font-medium min-h-[140px]"></textarea>
+                    <button onclick="submitReport()" class="w-full bg-tecnm-blue text-white py-5 rounded-[2rem] font-black shadow-2xl hover:bg-tecnm-dark transition-all uppercase tracking-[0.3em] text-[11px]">Enviar al NOC</button>
+                </div>
+            </div>
+            <div class="bg-white p-8 md:p-12 rounded-[3.5rem] md:rounded-[4rem] shadow-xl border border-black/5 border-t-8 border-tecnm-gray flex flex-col h-full admin-card"><h3 class="text-2xl font-black text-tecnm-blue mb-10 font-outfit uppercase italic leading-none">Historial Maestro</h3><div id="incident-log" class="space-y-4 flex-1 overflow-y-auto max-h-[450px] pr-3 custom-scroll"></div></div>
+        </section>
+
+        <!-- 6. ROADMAP (Public View) -->
+        <section class="student-hide bg-white p-10 md:p-20 rounded-[4rem] md:rounded-[6rem] shadow-2xl border border-black/5 mb-24 relative overflow-hidden">
+            <div class="absolute right-0 bottom-0 opacity-[0.05] pointer-events-none"><img src="public/assets/img/itver.png" class="w-80 md:w-[35rem] translate-x-20 translate-y-20"></div>
+            <h3 class="text-3xl md:text-5xl font-black text-tecnm-blue mb-16 text-center font-outfit uppercase tracking-tighter italic leading-none">Plan de Expansión <br><span class="text-tecnm-red">Tecnológica 2026</span></h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-left relative z-10">
+                <div class="relative pl-16 py-4"><div class="absolute left-0 top-1/2 -translate-y-1/2 w-12 h-12 bg-tecnm-red text-white rounded-2xl flex items-center justify-center font-black shadow-xl italic">1</div><h5 class="font-black text-sm uppercase text-tecnm-blue mb-2 italic">Backbone 10G</h5><p class="text-xs text-slate-500 font-semibold leading-relaxed">Fibra monomodo certificada.</p></div>
+                <div class="relative pl-16 py-4"><div class="absolute left-0 top-1/2 -translate-y-1/2 w-12 h-12 bg-tecnm-amber text-white rounded-2xl flex items-center justify-center font-black shadow-xl italic">2</div><h5 class="font-black text-sm uppercase text-tecnm-blue mb-2 italic">Wi-Fi 6 AX</h5><p class="text-xs text-slate-500 font-semibold leading-relaxed">Alta densidad concurrente.</p></div>
+                <div class="relative pl-16 py-4"><div class="absolute left-0 top-1/2 -translate-y-1/2 w-12 h-12 bg-tecnm-green text-white rounded-2xl flex items-center justify-center font-black shadow-xl italic">3</div><h5 class="font-black text-sm uppercase text-tecnm-blue mb-2 italic">SNMPv3/AI</h5><p class="text-xs text-slate-500 font-semibold leading-relaxed">Gestión predictiva campus.</p></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="py-24 bg-slate-900 text-white/30 text-center border-t-8 border-tecnm-blue" id="main-footer">
+        <p class="font-black uppercase tracking-[0.5em] text-[11px] mb-4 text-white/80 italic">TecNM - Campus Veracruz</p>
+        <p class="text-[10px] opacity-50 uppercase tracking-[0.3em] italic px-4">Portal de Diagnóstico v4.4 Bento Professional - 2026</p>
+    </footer>
+
+    <script>
+        let currentUser = 'student';
+        let labMode = false;
+        const allBuildingsList = ["Edificio A (Admón)", "Edificio B (Idiomas)", "Edificio C (Básicas)", "Edificio D (Electrónica)", "Edificio E (Aulas)", "Edificio F (Metal Mec.)", "Edificio G (Sistemas)", "Edificio H (Posgrado)", "Edificio K (Bioq.)", "Edificio L (Química)", "Edificio M (Maestría)", "Edificio N (Dir.)", "Edificio O (Biblioteca)", "Edificio P (Industrial)", "Edificio Q (Ing. Química)", "Edificio R (Aulas)", "Edificio S (Cómputo)", "Edificio X (Mecatrónica)", "Auditorio", "Cafetería", "Gimnasio", "Domo", "Alberca"];
+        let buildings = [
+            { id: 'X', nombre: 'Edificio X (Mecatrónica)', disp: 88.66, err: 5.5, traf: 140, sat: 65, pos: { x: 74, y: 88 }, ux: "Baja potencia.", devices: [{n:'SW-MEC-CORE', s:'Online'}] },
+            { id: 'L', nombre: 'Edificio L (Química)', disp: 90.46, err: 4.8, traf: 120, sat: 72, pos: { x: 46, y: 56 }, ux: "Microcortes.", devices: [{n:'SW-QMC-01', s:'Online'}] },
+            { id: 'W', nombre: 'Edificio W (Industrial)', disp: 97.06, err: 1.5, traf: 60, sat: 88, pos: { x: 41, y: 53 }, ux: "Estable.", devices: [{n:'SW-IND-01', s:'Online'}] },
+            { id: 'B', nombre: 'Biblioteca (Edificio O)', disp: 99.77, err: 0.1, traf: 80, sat: 95, pos: { x: 62, y: 82 }, ux: "Excelente.", devices: [{n:'CORE-BIB-01', s:'Online'}] },
+            { id: 'S', nombre: 'Edificio S (Cómputo)', disp: 99.45, err: 0.2, traf: 100, sat: 90, pos: { x: 50, y: 70 }, ux: "Saturación.", devices: [{n:'SW-COMP-01', s:'Online'}] },
+            { id: 'N', nombre: 'Edificio N (Dirección)', disp: 99.79, err: 0.1, traf: 40, sat: 98, pos: { x: 52, y: 85 }, ux: "Óptimo.", devices: [{n:'SW-DIR-01', s:'Online'}] }
+        ];
+
+        let mainChart;
+        let selectedNode = null;
+        let activeAlerts = new Set();
+
+        function openLogin() { document.getElementById('login-modal').style.display = 'flex'; }
+        function closeLogin() { document.getElementById('login-modal').style.display = 'none'; }
+        
+        function runTransition(text, callback) {
+            const overlay = document.getElementById('transition-overlay');
+            const txt = document.getElementById('transition-text');
+            txt.innerText = text;
+            overlay.style.display = 'flex';
+            setTimeout(() => overlay.classList.add('active'), 10);
+            setTimeout(() => {
+                callback();
+                setTimeout(() => {
+                    overlay.classList.remove('active');
+                    setTimeout(() => { overlay.style.display = 'none'; }, 800);
+                }, 1500);
+            }, 1000);
+        }
+
+        function loginAdmin() {
+            const user = document.getElementById('admin-user').value;
+            const pass = document.getElementById('admin-pass').value;
+            if(user === 'admin' && pass === 'itver2026') {
+                runTransition("Autenticando en NOC Central...", () => {
+                    currentUser = 'admin';
+                    document.getElementById('body-main').classList.add('is-admin');
+                    closeLogin();
+                    document.getElementById('admin-login-trigger').classList.add('hidden');
+                    document.getElementById('role-icon').innerText = 'A';
+                    document.getElementById('role-icon').style.backgroundColor = '#E63946';
+                    document.getElementById('role-text').innerText = 'Admin NOC';
+                    updateVisuals();
+                });
+            } else { document.getElementById('login-error').classList.remove('hidden'); }
+        }
+
+        function logout() { runTransition("Cerrando Sesión Segura...", () => { location.reload(); }); }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initChart(); initSelects(); renderMap(); loadStoredData(); startSimulation(); updateBestConnection();
+            document.getElementById('terminal-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') handleTerminal(e.target.value); });
+        });
+
+        function initChart() {
+            const ctx = document.getElementById('mainChart').getContext('2d');
+            mainChart = new Chart(ctx, {
+                type: 'bar',
+                data: { labels: buildings.map(b => b.nombre.split(' ')[1]), datasets: [{ label: 'Disp %', data: buildings.map(b => b.disp), backgroundColor: buildings.map(b => b.disp < 92 ? '#E63946' : '#1B396A'), borderRadius: 12 }] },
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 80, max: 100 } }, plugins: { legend: { display: false } } }
+            });
+        }
+
+        function updateBestConnection() {
+            let best = buildings[0]; let bestScore = 0;
+            buildings.forEach(b => { const s = (parseFloat(b.disp) * 0.7) + ((100 - (b.traf/2)) * 0.3); if(s > bestScore) { bestScore = s; best = b; } });
+            document.getElementById('best-building-name').innerText = best.nombre; renderMap();
+        }
+
+        function toggleLabMode() {
+            labMode = !labMode; const btn = document.getElementById('lab-btn');
+            btn.classList.toggle('bg-tecnm-green'); btn.classList.toggle('text-white');
+            addLogEntry(labMode ? "LAB: Activo." : "LAB: Off.");
+        }
+
+        document.getElementById('map-container').onclick = (e) => {
+            if(!labMode) return;
+            const rect = e.currentTarget.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width) * 100;
+            const y = ((e.clientY - rect.top) / rect.height) * 100;
+            const apData = { x, y, id: Date.now() };
+            saveLabAP(apData); renderLabAP(apData); addLogEntry(`NODO: ${x.toFixed(0)}%`); toggleLabMode();
+        };
+
+        function updateMapMode() {
+            const canvas = document.getElementById('heatmap-canvas'); const markers = document.getElementById('map-markers');
+            const mode = document.getElementById('map-mode').value;
+            if(mode === 'heatmap') { canvas.style.opacity = '1'; markers.style.opacity = '0.3'; drawHeatmap(); }
+            else { canvas.style.opacity = '0'; markers.style.opacity = '1'; }
+        }
+
+        function drawHeatmap() {
+            const canvas = document.getElementById('heatmap-canvas'); const ctx = canvas.getContext('2d'); const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width; canvas.height = rect.height; ctx.clearRect(0, 0, canvas.width, canvas.height);
+            buildings.forEach(b => {
+                const x = (b.pos.x * canvas.width) / 100; const y = (b.pos.y * canvas.height) / 100; const radius = (b.traf * canvas.width) / 300;
+                const grad = ctx.createRadialGradient(x, y, 0, x, y, radius);
+                grad.addColorStop(0, b.disp < 92 ? 'rgba(230, 57, 70, 0.7)' : 'rgba(27, 57, 106, 0.6)'); grad.addColorStop(1, 'rgba(255, 255, 255, 0)');
+                ctx.fillStyle = grad; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            });
+        }
+
+        function renderMap() {
+            const container = document.getElementById('map-markers'); container.innerHTML = '';
+            let bestId = buildings[0].id; let maxScore = 0;
+            buildings.forEach(b => { const s = (parseFloat(b.disp) * 0.7) + ((100 - (b.traf/2)) * 0.3); if(s > maxScore) { maxScore = s; bestId = b.id; } });
+            buildings.forEach(b => {
+                const marker = document.createElement('div'); const isBest = b.id === bestId;
+                marker.className = `absolute w-4 md:w-5 h-4 md:h-5 rounded-full border-2 border-white shadow-lg cursor-pointer marker-pulse z-30 ${b.disp < 92 ? 'bg-tecnm-red' : 'bg-tecnm-blue'} ${isBest ? 'best-node-glow bg-tecnm-green border-tecnm-green' : ''}`;
+                marker.style.top = b.pos.y + '%'; marker.style.left = b.pos.x + '%'; marker.style.transform = 'translate(-50%, -50%)';
+                marker.onclick = (e) => { e.stopPropagation(); showDrilldown(b); }; container.appendChild(marker);
+            });
+        }
+
+        function showDrilldown(b) {
+            selectedNode = b; const content = document.getElementById('drilldown-content');
+            if(currentUser === 'admin') {
+                content.innerHTML = `<h4 class="text-xl md:text-2xl font-black font-outfit mb-2 uppercase italic text-tecnm-blue">${b.nombre}</h4><p class="text-[9px] font-black text-tecnm-amber uppercase mb-6 tracking-widest">Hardware SNMP</p><div class="space-y-2 custom-scroll max-h-[150px] overflow-y-auto">${b.devices.map(d => `<div class="bg-slate-100 p-3 rounded-2xl flex justify-between items-center"><span class="text-[10px] font-bold text-tecnm-blue/80">${d.n}</span><span class="text-[8px] font-black uppercase ${d.s === 'Online' ? 'text-tecnm-green' : 'text-tecnm-amber'}">${d.s}</span></div>`).join('')}</div>`;
+                document.getElementById('terminal-section').classList.remove('hidden');
+            } else {
+                content.innerHTML = `<h4 class="text-xl md:text-2xl font-black font-outfit mb-2 uppercase italic">${b.nombre}</h4><p class="text-[9px] font-black text-tecnm-green uppercase mb-8">Estatus Público</p><div class="bg-white/10 p-6 rounded-[2rem] border border-white/5"><p class="text-[11px] italic text-white/80 font-medium mb-6 leading-relaxed">"${b.ux}"</p><div class="flex justify-between items-center"><span class="text-[9px] font-black uppercase opacity-50 tracking-widest">Disponibilidad</span><span class="text-base font-black">${b.disp}%</span></div></div>`;
+                document.getElementById('terminal-section').classList.add('hidden');
+            }
+        }
+
+        function loadStoredData() {
+            const logs = JSON.parse(localStorage.getItem('itver_logs') || '[]');
+            logs.forEach(html => {
+                const entry = document.createElement('div'); entry.className = `p-4 rounded-2xl border-l-4 border-tecnm-blue text-[11px] font-black shadow-sm bg-slate-50`;
+                entry.innerHTML = html; document.getElementById('incident-log').appendChild(entry);
+                if(html.includes('USUARIO')) addStudentReportBox(html);
+            });
+            const aps = JSON.parse(localStorage.getItem('itver_aps') || '[]'); aps.forEach(renderLabAP);
+        }
+
+        function addLogEntry(msg) {
+            const isStudent = currentUser === 'student';
+            const html = `<div class="flex justify-between items-start"><span class="text-[8px] opacity-40 block mb-1 uppercase tracking-widest">${new Date().toLocaleTimeString()}</span><span class="text-[7px] font-black uppercase px-2 py-0.5 rounded ${isStudent ? 'bg-tecnm-blue text-white' : 'bg-tecnm-red text-white'}">${isStudent ? 'USUARIO' : 'ADMIN_NOC'}</span></div>${msg}`;
+            const logs = JSON.parse(localStorage.getItem('itver_logs') || '[]'); logs.unshift(html);
+            localStorage.setItem('itver_logs', JSON.stringify(logs.slice(0, 50)));
+            const entry = document.createElement('div'); entry.className = `p-4 rounded-2xl border-l-4 border-tecnm-blue text-[11px] font-black shadow-sm animate-fade-in bg-slate-50`;
+            entry.innerHTML = html; document.getElementById('incident-log').prepend(entry);
+            if(isStudent) addStudentReportBox(html);
+        }
+
+        function addStudentReportBox(html) {
+            const box = document.getElementById('student-reports-box'); if(box.querySelector('p.italic')) box.innerHTML = '';
+            const card = document.createElement('div'); card.className = "bg-slate-50 p-4 rounded-2xl border border-slate-200 text-[9px] font-medium shadow-sm mb-3 animate-fade-in text-slate-700";
+            card.innerHTML = html; box.prepend(card);
+        }
+
+        function saveLabAP(data) { const aps = JSON.parse(localStorage.getItem('itver_aps') || '[]'); aps.push(data); localStorage.setItem('itver_aps', JSON.stringify(aps)); }
+        function renderLabAP(data) {
+            const ap = document.createElement('div'); ap.className = 'lab-ap marker-pulse pointer-events-auto';
+            ap.style.left = data.x + '%'; ap.style.top = data.y + '%'; ap.style.transform = 'translate(-50%, -50%)';
+            ap.innerHTML = '<i class="fas fa-wifi"></i>'; document.getElementById('lab-elements').appendChild(ap);
+        }
+
+        function runSpeedtest() {
+            const btn = document.querySelector('#student-view-area button'); const val = document.getElementById('speed-value');
+            btn.disabled = true; btn.innerText = "TEST..."; let c = 0;
+            const iv = setInterval(() => {
+                val.innerText = (Math.random() * 100).toFixed(1);
+                if(c++ > 15) { clearInterval(iv); const res = (75 + Math.random() * 20).toFixed(1); val.innerText = res; btn.innerText = "OK"; addLogEntry(`SPEEDTEST: ${res} Mbps.`); setTimeout(() => { btn.disabled = false; btn.innerText = "INICIAR"; }, 3000); }
+            }, 100);
+        }
+
+        function handleTerminal(cmd) {
+            const out = document.getElementById('terminal-output'); const command = cmd.toLowerCase().trim();
+            let res = (command === 'status') ? `CORE_UP` : (command === 'help') ? "status, clear" : "ERR";
+            if(command === 'clear') out.innerHTML = ""; else out.innerHTML += `<br><span class="text-tecnm-green"># ${cmd}</span><br>${res}`;
+            out.scrollTop = out.scrollHeight; document.getElementById('terminal-input').value = "";
+        }
+
+        function startSimulation() {
+            setInterval(() => {
+                buildings.forEach(b => { b.disp = Math.min(100, Math.max(80, parseFloat(b.disp) + (Math.random() - 0.5) * 0.2)).toFixed(2); b.traf = Math.min(200, Math.max(10, parseFloat(b.traf) + (Math.random() - 0.5) * 10)).toFixed(1); if(b.disp < 92) triggerAlert(b); });
+                updateVisuals(); updateBestConnection(); document.getElementById('simulation-clock').innerText = new Date().toLocaleTimeString();
+            }, 5000);
+        }
+
+        function triggerAlert(b) {
+            if (activeAlerts.has(b.id) || document.querySelectorAll('.alert-toast').length >= 3) return;
+            activeAlerts.add(b.id); const alert = document.createElement('div'); alert.className = 'alert-toast';
+            alert.innerHTML = `<p class="font-black text-[10px] uppercase">${b.id} ALERTA</p><p class="text-[9px] font-bold text-tecnm-red">${b.disp}%</p>`;
+            document.getElementById('alert-container').appendChild(alert); setTimeout(() => { alert.remove(); activeAlerts.delete(b.id); }, 5000);
+        }
+
+        function updateVisuals() {
+            if(currentUser === 'admin') {
+                mainChart.data.datasets[0].data = buildings.map(b => b.disp); mainChart.update('none'); renderTable();
+                document.getElementById('admin-traf-val').innerHTML = (buildings.reduce((a, b) => a + parseFloat(b.traf), 0) / buildings.length).toFixed(0) + '<span class="text-sm opacity-50 ml-2">Mbps</span>';
+                document.getElementById('admin-crit-val').innerText = buildings.filter(b => b.disp < 92).length;
+            }
+            renderMap(); if(document.getElementById('map-mode').value === 'heatmap') drawHeatmap();
+        }
+
+        function renderTable() {
+            const tb = document.getElementById('table-body-matrix'); if(!tb) return;
+            tb.innerHTML = buildings.map(b => {
+                const sColor = b.sat > 90 ? 'text-tecnm-green' : (b.sat > 75 ? 'text-tecnm-amber' : 'text-tecnm-red');
+                return `<tr class="table-row transition-colors" onclick="showDrilldown(${JSON.stringify(b).replace(/"/g, '&quot;')})"><td class="p-8 font-black uppercase text-xs italic text-tecnm-blue">${b.nombre}</td><td class="p-8 font-mono font-bold">${b.disp}%</td><td class="p-8 text-xs opacity-50">${b.err}%</td><td class="p-8 font-black ${sColor}">${b.sat}% UX</td><td class="p-8 text-center"><span class="w-3 h-3 rounded-full inline-block ${b.disp < 92 ? 'bg-tecnm-red shadow-[0_0_10px_#E63946]' : 'bg-tecnm-green shadow-[0_0_10px_#2A9D8F]'}"></span></td></tr>`;
+            }).join('');
+        }
+
+        function submitReport() { const d = document.getElementById('incident-desc').value; if(!d.trim()) return; addLogEntry(`REPORTE: ${document.getElementById('incident-building').value} - ${d}`); document.getElementById('incident-desc').value = ''; alert("Enviado."); }
+        function initSelects() { const sel = document.getElementById('incident-building'); sel.innerHTML = ''; allBuildingsList.sort().forEach(bName => { const opt = document.createElement('option'); opt.value = bName; opt.innerText = bName; sel.appendChild(opt); }); }
+        function setTopology(type) { document.getElementById('top-actual').className = `px-6 py-2.5 rounded-xl text-[9px] font-black transition-all ${type === 'actual' ? 'bg-tecnm-red text-white shadow-md' : 'text-slate-400'}`; document.getElementById('top-star').className = `px-6 py-2.5 rounded-xl text-[9px] font-black transition-all ${type === 'star' ? 'bg-tecnm-green text-white shadow-md' : 'text-slate-400'}`; if(type === 'star') buildings.forEach(b => { if(b.disp < 96) b.disp = 98.8; }); updateVisuals(); }
+        function exportCSV() { let csv = "Edificio,Disp,Sat\n"; buildings.forEach(b => csv += `${b.nombre},${b.disp},${b.sat}\n`); const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' })); a.download = "itver_noc.csv"; a.click(); }
+    </script>
+</body>
+</html>
