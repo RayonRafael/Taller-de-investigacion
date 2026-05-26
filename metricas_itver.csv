@@ -1,0 +1,122 @@
+Fecha,Hora,Edificio,InOctets (Mbps),OutOctets (Mbps),InErrors,OutErrors,Disponibilidad (%)
+2026-04-29,08:00,Edificio A (UDIM),48.87,19.84,0.06,0.05,99.87
+2026-04-29,08:00,Edificio L (Lab. de química general),80.24,32.76,4.47,3.58,91.05
+2026-04-29,08:00,Edificio X (Lab. de Mecatrónica),88.20,35.17,5.04,4.03,89.92
+2026-04-29,08:00,Edificio W (Lab. de industrial),57.73,22.42,2.52,2.01,94.97
+2026-04-29,08:00,Edificio Q (Aulas Ciencias económico administrativas),68.66,28.70,0.90,0.72,98.20
+2026-04-29,08:00,"Edificio O (Biblioteca, Centro de información, Gestión tecnológica y vinculación)",47.79,17.81,0.21,0.17,99.58
+2026-04-29,08:00,"Edificio U (Sistemas y computación, Centro de cómputo)",58.47,23.85,0.16,0.13,99.68
+2026-04-29,08:00,"Edificio N (Planta alta: Dirección, Subdirección de planeación y vinculación, Subdirección de servicios administrativos, Recursos financieros. Planta baja: Servicios escolares, Recursos humanos, Planeación, programación y presupuestación)",32.99,12.13,0.11,0.09,99.78
+2026-04-29,08:00,"Edificio M (Subdirección académica, Desarrollo académico, División de estudios profesionales, División de estudios de posgrado e investigación)",31.00,11.43,0.16,0.13,99.68
+2026-04-29,08:00,Edificio T (Lab. de eléctrica-electrónica),53.82,23.23,0.60,0.48,98.79
+2026-04-29,08:00,"Edificio D (Lab. de química pesada, Lab. de electrónica, Planta Piloto de Bioetanol 2G)",50.98,21.61,0.24,0.19,99.52
+2026-04-29,09:00,Edificio A (UDIM),52.78,21.10,0.14,0.11,99.73
+2026-04-29,09:00,Edificio L (Lab. de química general),79.12,31.81,3.27,2.61,93.46
+2026-04-29,09:00,Edificio X (Lab. de Mecatrónica),90.98,37.51,6.04,4.83,87.92
+2026-04-29,09:00,Edificio W (Lab. de industrial),59.08,23.40,0.86,0.69,98.28
+2026-04-29,09:00,Edificio Q (Aulas Ciencias económico administrativas),74.42,31.42,0.69,0.55,98.62
+2026-04-29,09:00,"Edificio O (Biblioteca, Centro de información, Gestión tecnológica y vinculación)",47.70,17.24,0.13,0.11,99.73
+2026-04-29,09:00,"Edificio U (Sistemas y computación, Centro de cómputo)",57.98,21.29,0.15,0.12,99.69
+2026-04-29,09:00,"Edificio N (Planta alta: Dirección, Subdirección de planeación y vinculación, Subdirección de servicios administrativos, Recursos financieros. Planta baja: Servicios escolares, Recursos humanos, Planeación, programación y presupuestación)",26.59,11.28,0.11,0.09,99.78
+2026-04-29,09:00,"Edificio M (Subdirección académica, Desarrollo académico, División de estudios profesionales, División de estudios de posgrado e investigación)",26.05,11.35,0.15,0.12,99.70
+2026-04-29,09:00,Edificio T (Lab. de eléctrica-electrónica),47.86,20.12,0.93,0.75,98.14
+2026-04-29,09:00,"Edificio D (Lab. de química pesada, Lab. de electrónica, Planta Piloto de Bioetanol 2G)",50.51,21.66,0.29,0.23,99.42
+2026-04-29,10:00,Edificio A (UDIM),52.74,22.35,0.16,0.12,99.69
+2026-04-29,10:00,Edificio L (Lab. de química general),76.11,31.28,1.27,1.02,97.45
+2026-04-29,10:00,Edificio X (Lab. de Mecatrónica),86.88,36.49,6.41,5.13,87.18
+2026-04-29,10:00,Edificio W (Lab. de industrial),58.65,24.71,2.71,2.17,94.58
+2026-04-29,10:00,Edificio Q (Aulas Ciencias económico administrativas),70.11,26.61,0.90,0.72,98.19
+2026-04-29,10:00,"Edificio O (Biblioteca, Centro de información, Gestión tecnológica y vinculación)",45.60,20.19,0.32,0.25,99.37
+2026-04-29,10:00,"Edificio U (Sistemas y computación, Centro de cómputo)",61.77,25.49,0.11,0.09,99.78
+2026-04-29,10:00,"Edificio N (Planta alta: Dirección, Subdirección de planeación y vinculación, Subdirección de servicios administrativos, Recursos financieros. Planta baja: Servicios escolares, Recursos humanos, Planeación, programación y presupuestación)",30.17,11.31,0.14,0.11,99.72
+2026-04-29,10:00,"Edificio M (Subdirección académica, Desarrollo académico, División de estudios profesionales, División de estudios de posgrado e investigación)",27.76,9.97,0.18,0.15,99.63
+2026-04-29,10:00,Edificio T (Lab. de eléctrica-electrónica),49.29,21.32,0.58,0.46,98.84
+2026-04-29,10:00,"Edificio D (Lab. de química pesada, Lab. de electrónica, Planta Piloto de Bioetanol 2G)",48.30,19.60,0.27,0.21,99.46
+2026-04-29,11:00,Edificio A (UDIM),87.80,35.51,0.14,0.11,99.72
+2026-04-29,11:00,Edificio L (Lab. de química general),148.85,57.71,10.02,8.02,85.00
+2026-04-29,11:00,Edificio X (Lab. de Mecatrónica),163.36,64.65,17.60,14.08,85.00
+2026-04-29,11:00,Edificio W (Lab. de industrial),107.00,42.04,2.42,1.94,95.16
+2026-04-29,11:00,Edificio Q (Aulas Ciencias económico administrativas),128.09,51.71,0.61,0.49,98.77
+2026-04-29,11:00,"Edificio O (Biblioteca, Centro de información, Gestión tecnológica y vinculación)",85.16,34.87,0.22,0.18,99.56
+2026-04-29,11:00,"Edificio U (Sistemas y computación, Centro de cómputo)",112.10,44.94,0.23,0.18,99.54
+2026-04-29,11:00,"Edificio N (Planta alta: Dirección, Subdirección de planeación y vinculación, Subdirección de servicios administrativos, Recursos financieros. Planta baja: Servicios escolares, Recursos humanos, Planeación, programación y presupuestación)",52.16,20.45,0.06,0.05,99.88
+2026-04-29,11:00,"Edificio M (Subdirección académica, Desarrollo académico, División de estudios profesionales, División de estudios de posgrado e investigación)",51.73,21.76,0.17,0.13,99.67
+2026-04-29,11:00,Edificio T (Lab. de eléctrica-electrónica),94.96,39.12,0.88,0.70,98.25
+2026-04-29,11:00,"Edificio D (Lab. de química pesada, Lab. de electrónica, Planta Piloto de Bioetanol 2G)",87.74,34.86,0.38,0.30,99.25
+2026-04-29,12:00,Edificio A (UDIM),90.14,37.12,0.11,0.09,99.77
+2026-04-29,12:00,Edificio L (Lab. de química general),147.13,57.64,11.38,9.10,85.00
+2026-04-29,12:00,Edificio X (Lab. de Mecatrónica),165.24,66.72,10.80,8.64,85.00
+2026-04-29,12:00,Edificio W (Lab. de industrial),105.05,41.80,1.19,0.95,97.63
+2026-04-29,12:00,Edificio Q (Aulas Ciencias económico administrativas),128.95,50.11,0.34,0.27,99.32
+2026-04-29,12:00,"Edificio O (Biblioteca, Centro de información, Gestión tecnológica y vinculación)",76.18,29.76,0.37,0.29,99.26
+2026-04-29,12:00,"Edificio U (Sistemas y computación, Centro de cómputo)",111.28,43.55,0.36,0.29,99.28
+2026-04-29,12:00,"Edificio N (Planta alta: Dirección, Subdirección de planeación y vinculación, Subdirección de servicios administrativos, Recursos financieros. Planta baja: Servicios escolares, Recursos humanos, Planeación, programación y presupuestación)",53.39,22.82,0.15,0.12,99.70
+2026-04-29,12:00,"Edificio M (Subdirección académica, Desarrollo académico, División de estudios profesionales, División de estudios de posgrado e investigación)",52.47,21.93,0.06,0.05,99.88
+2026-04-29,12:00,Edificio T (Lab. de eléctrica-electrónica),91.37,35.14,0.89,0.71,98.22
+2026-04-29,12:00,"Edificio D (Lab. de química pesada, Lab. de electrónica, Planta Piloto de Bioetanol 2G)",85.90,35.16,0.38,0.31,99.23
+2026-04-29,13:00,Edificio A (UDIM),94.76,39.03,0.20,0.16,99.61
+2026-04-29,13:00,Edificio L (Lab. de química general),140.88,54.40,7.51,6.01,85.00
+2026-04-29,13:00,Edificio X (Lab. de Mecatrónica),158.41,63.23,11.80,9.44,85.00
+2026-04-29,13:00,Edificio W (Lab. de industrial),112.57,45.71,2.27,1.81,95.47
+2026-04-29,13:00,Edificio Q (Aulas Ciencias económico administrativas),121.01,47.50,0.85,0.68,98.30
+2026-04-29,13:00,"Edificio O (Biblioteca, Centro de información, Gestión tecnológica y vinculación)",85.62,34.74,0.31,0.25,99.38
+2026-04-29,13:00,"Edificio U (Sistemas y computación, Centro de cómputo)",110.55,44.25,0.21,0.17,99.57
+2026-04-29,13:00,"Edificio N (Planta alta: Dirección, Subdirección de planeación y vinculación, Subdirección de servicios administrativos, Recursos financieros. Planta baja: Servicios escolares, Recursos humanos, Planeación, programación y presupuestación)",54.62,19.90,0.16,0.12,99.69
+2026-04-29,13:00,"Edificio M (Subdirección académica, Desarrollo académico, División de estudios profesionales, División de estudios de posgrado e investigación)",54.56,20.34,0.16,0.13,99.68
+2026-04-29,13:00,Edificio T (Lab. de eléctrica-electrónica),89.47,37.78,0.40,0.32,99.20
+2026-04-29,13:00,"Edificio D (Lab. de química pesada, Lab. de electrónica, Planta Piloto de Bioetanol 2G)",90.33,37.75,0.52,0.42,98.96
+2026-04-29,14:00,Edificio A (UDIM),87.40,33.76,0.09,0.07,99.82
+2026-04-29,14:00,Edificio L (Lab. de química general),145.88,58.54,3.96,3.17,92.08
+2026-04-29,14:00,Edificio X (Lab. de Mecatrónica),166.87,68.31,12.23,9.78,85.00
+2026-04-29,14:00,Edificio W (Lab. de industrial),111.18,44.03,1.94,1.55,96.12
+2026-04-29,14:00,Edificio Q (Aulas Ciencias económico administrativas),122.56,49.51,0.40,0.32,99.20
+2026-04-29,14:00,"Edificio O (Biblioteca, Centro de información, Gestión tecnológica y vinculación)",76.96,29.20,0.29,0.23,99.41
+2026-04-29,14:00,"Edificio U (Sistemas y computación, Centro de cómputo)",107.86,45.03,0.31,0.25,99.38
+2026-04-29,14:00,"Edificio N (Planta alta: Dirección, Subdirección de planeación y vinculación, Subdirección de servicios administrativos, Recursos financieros. Planta baja: Servicios escolares, Recursos humanos, Planeación, programación y presupuestación)",54.50,23.43,0.19,0.16,99.61
+2026-04-29,14:00,"Edificio M (Subdirección académica, Desarrollo académico, División de estudios profesionales, División de estudios de posgrado e investigación)",54.25,20.35,0.06,0.05,99.88
+2026-04-29,14:00,Edificio T (Lab. de eléctrica-electrónica),87.74,36.51,0.37,0.29,99.27
+2026-04-29,14:00,"Edificio D (Lab. de química pesada, Lab. de electrónica, Planta Piloto de Bioetanol 2G)",88.92,36.35,0.36,0.29,99.27
+2026-04-29,15:00,Edificio A (UDIM),91.90,38.30,0.10,0.08,99.80
+2026-04-29,15:00,Edificio L (Lab. de química general),143.49,59.37,1.65,1.32,96.69
+2026-04-29,15:00,Edificio X (Lab. de Mecatrónica),166.61,67.16,7.06,5.65,85.87
+2026-04-29,15:00,Edificio W (Lab. de industrial),111.92,42.79,2.74,2.19,94.52
+2026-04-29,15:00,Edificio Q (Aulas Ciencias económico administrativas),121.72,50.52,0.58,0.46,98.85
+2026-04-29,15:00,"Edificio O (Biblioteca, Centro de información, Gestión tecnológica y vinculación)",81.39,32.75,0.12,0.10,99.76
+2026-04-29,15:00,"Edificio U (Sistemas y computación, Centro de cómputo)",112.66,43.73,0.22,0.18,99.56
+2026-04-29,15:00,"Edificio N (Planta alta: Dirección, Subdirección de planeación y vinculación, Subdirección de servicios administrativos, Recursos financieros. Planta baja: Servicios escolares, Recursos humanos, Planeación, programación y presupuestación)",56.15,20.64,0.17,0.14,99.66
+2026-04-29,15:00,"Edificio M (Subdirección académica, Desarrollo académico, División de estudios profesionales, División de estudios de posgrado e investigación)",52.31,21.70,0.18,0.14,99.65
+2026-04-29,15:00,Edificio T (Lab. de eléctrica-electrónica),89.37,33.81,0.53,0.43,98.93
+2026-04-29,15:00,"Edificio D (Lab. de química pesada, Lab. de electrónica, Planta Piloto de Bioetanol 2G)",92.47,36.82,0.47,0.38,99.05
+2026-04-29,16:00,Edificio A (UDIM),45.14,19.39,0.20,0.16,99.60
+2026-04-29,16:00,Edificio L (Lab. de química general),83.07,33.19,3.94,3.15,92.12
+2026-04-29,16:00,Edificio X (Lab. de Mecatrónica),91.07,37.83,5.23,4.19,89.54
+2026-04-29,16:00,Edificio W (Lab. de industrial),60.88,22.78,0.88,0.71,98.24
+2026-04-29,16:00,Edificio Q (Aulas Ciencias económico administrativas),71.02,27.68,0.52,0.42,98.96
+2026-04-29,16:00,"Edificio O (Biblioteca, Centro de información, Gestión tecnológica y vinculación)",40.87,17.21,0.16,0.13,99.67
+2026-04-29,16:00,"Edificio U (Sistemas y computación, Centro de cómputo)",64.29,24.89,0.15,0.12,99.69
+2026-04-29,16:00,"Edificio N (Planta alta: Dirección, Subdirección de planeación y vinculación, Subdirección de servicios administrativos, Recursos financieros. Planta baja: Servicios escolares, Recursos humanos, Planeación, programación y presupuestación)",27.17,12.16,0.10,0.08,99.79
+2026-04-29,16:00,"Edificio M (Subdirección académica, Desarrollo académico, División de estudios profesionales, División de estudios de posgrado e investigación)",34.26,15.52,0.12,0.10,99.75
+2026-04-29,16:00,Edificio T (Lab. de eléctrica-electrónica),45.06,18.81,0.76,0.61,98.49
+2026-04-29,16:00,"Edificio D (Lab. de química pesada, Lab. de electrónica, Planta Piloto de Bioetanol 2G)",48.44,20.63,0.29,0.24,99.41
+2026-04-29,17:00,Edificio A (UDIM),45.59,19.35,0.17,0.14,99.66
+2026-04-29,17:00,Edificio L (Lab. de química general),78.08,31.14,3.29,2.63,93.43
+2026-04-29,17:00,Edificio X (Lab. de Mecatrónica),93.63,37.39,4.96,3.97,90.07
+2026-04-29,17:00,Edificio W (Lab. de industrial),59.64,24.12,2.24,1.79,95.52
+2026-04-29,17:00,Edificio Q (Aulas Ciencias económico administrativas),74.35,31.47,0.27,0.22,99.45
+2026-04-29,17:00,"Edificio O (Biblioteca, Centro de información, Gestión tecnológica y vinculación)",45.91,17.60,0.24,0.20,99.51
+2026-04-29,17:00,"Edificio U (Sistemas y computación, Centro de cómputo)",62.81,25.95,0.40,0.32,99.21
+2026-04-29,17:00,"Edificio N (Planta alta: Dirección, Subdirección de planeación y vinculación, Subdirección de servicios administrativos, Recursos financieros. Planta baja: Servicios escolares, Recursos humanos, Planeación, programación y presupuestación)",29.21,10.91,0.08,0.07,99.84
+2026-04-29,17:00,"Edificio M (Subdirección académica, Desarrollo académico, División de estudios profesionales, División de estudios de posgrado e investigación)",31.76,12.49,0.06,0.04,99.89
+2026-04-29,17:00,Edificio T (Lab. de eléctrica-electrónica),49.71,19.68,0.71,0.56,98.59
+2026-04-29,17:00,"Edificio D (Lab. de química pesada, Lab. de electrónica, Planta Piloto de Bioetanol 2G)",45.54,18.24,0.51,0.41,98.98
+2026-04-29,18:00,Edificio A (UDIM),51.76,20.80,0.09,0.07,99.83
+2026-04-29,18:00,Edificio L (Lab. de química general),77.11,30.40,3.30,2.64,93.39
+2026-04-29,18:00,Edificio X (Lab. de Mecatrónica),91.06,37.05,7.18,5.74,85.64
+2026-04-29,18:00,Edificio W (Lab. de industrial),57.05,22.86,2.56,2.05,94.89
+2026-04-29,18:00,Edificio Q (Aulas Ciencias económico administrativas),67.10,27.55,0.49,0.39,99.03
+2026-04-29,18:00,"Edificio O (Biblioteca, Centro de información, Gestión tecnológica y vinculación)",44.49,18.47,0.37,0.30,99.26
+2026-04-29,18:00,"Edificio U (Sistemas y computación, Centro de cómputo)",61.13,25.09,0.34,0.27,99.32
+2026-04-29,18:00,"Edificio N (Planta alta: Dirección, Subdirección de planeación y vinculación, Subdirección de servicios administrativos, Recursos financieros. Planta baja: Servicios escolares, Recursos humanos, Planeación, programación y presupuestación)",28.94,10.98,0.16,0.13,99.68
+2026-04-29,18:00,"Edificio M (Subdirección académica, Desarrollo académico, División de estudios profesionales, División de estudios de posgrado e investigación)",28.89,10.30,0.18,0.15,99.64
+2026-04-29,18:00,Edificio T (Lab. de eléctrica-electrónica),45.75,19.75,0.42,0.34,99.16
+2026-04-29,18:00,"Edificio D (Lab. de química pesada, Lab. de electrónica, Planta Piloto de Bioetanol 2G)",50.21,21.61,0.39,0.31,99.22

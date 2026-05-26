@@ -222,7 +222,7 @@
                     <div class="relative min-w-[800px]" id="map-container">
                         <img src="public/assets/img/mapa-campus.png" class="w-full h-auto object-contain rounded-[3rem] md:rounded-[4rem]" id="main-map">
                         <canvas id="heatmap-canvas" class="absolute top-0 left-0 w-full h-full transition-opacity"></canvas>
-                        <div id="map-markers" class="z-20"></div>
+                        <div id="map-markers" class="absolute inset-0 z-20"></div>
                         <div id="lab-elements" class="absolute inset-0 z-40 pointer-events-none"></div>
                     </div>
                 </div>
@@ -268,14 +268,76 @@
     <script>
         let currentUser = 'student';
         let labMode = false;
-        const allBuildingsList = ["Edificio A (Admón)", "Edificio B (Idiomas)", "Edificio C (Básicas)", "Edificio D (Electrónica)", "Edificio E (Aulas)", "Edificio F (Metal Mec.)", "Edificio G (Sistemas)", "Edificio H (Posgrado)", "Edificio K (Bioq.)", "Edificio L (Química)", "Edificio M (Maestría)", "Edificio N (Dir.)", "Edificio O (Biblioteca)", "Edificio P (Industrial)", "Edificio Q (Ing. Química)", "Edificio R (Aulas)", "Edificio S (Cómputo)", "Edificio X (Mecatrónica)", "Auditorio", "Cafetería", "Gimnasio", "Domo", "Alberca"];
+        const allBuildingsList = [
+            "Edificio A (UDIM)",
+            "Edificio B (Recursos Materiales)",
+            "Edificio C (Mantenimiento y equipo)",
+            "Edificio D (Lab. de química pesada, Lab. de electrónica, Planta Piloto de Bioetanol 2G)",
+            "Edificio E (Aulas y cubículos de docentes, Auditorio Fermín Carrillo, Delegación sindical, Comunicación y difusión)",
+            "Edificio F (Aulas Ing. química-bioquímica)",
+            "Edificio G (Actividades extraescolares)",
+            "Edificio H (Cafetería)",
+            "Edificio J (Aulas, Sala Raúl Limón)",
+            "Edificio K (Aulas, Ciencias básicas, Aula Magna)",
+            "Edificio L (Lab. de química general)",
+            "Edificio M (Subdirección académica, Desarrollo académico, División de estudios profesionales, División de estudios de posgrado e investigación)",
+            "Edificio N (Planta alta: Dirección, Subdirección de planeación y vinculación, Subdirección de servicios administrativos, Recursos financieros. Planta baja: Servicios escolares, Recursos humanos, Planeación, programación y presupuestación)",
+            "Edificio O (Biblioteca, Centro de información, Gestión tecnológica y vinculación)",
+            "Edificio P (Coordinación deportiva)",
+            "Edificio Q (Aulas Ciencias económico administrativas)",
+            "Edificio R (Departamento de Ing. industrial)",
+            "Edificio S (Departamento de Ing. Metal-Mecánica)",
+            "Edificio T (Lab. de eléctrica-electrónica)",
+            "Edificio U (Sistemas y computación, Centro de cómputo)",
+            "Edificio V (UNIDA, Lab. de nanotecnología, Invernadero)",
+            "Edificio W (Lab. de industrial)",
+            "Edificio X (Lab. de Mecatrónica)",
+            "Edificio Y (Ciencias Económico Administrativo)"
+        ];
         let buildings = [
-            { id: 'X', nombre: 'Edificio X (Mecatrónica)', disp: 88.66, err: 5.5, traf: 140, sat: 65, pos: { x: 74, y: 88 }, ux: "Baja potencia.", devices: [{n:'SW-MEC-CORE', s:'Online'}] },
-            { id: 'L', nombre: 'Edificio L (Química)', disp: 90.46, err: 4.8, traf: 120, sat: 72, pos: { x: 46, y: 56 }, ux: "Microcortes.", devices: [{n:'SW-QMC-01', s:'Online'}] },
-            { id: 'W', nombre: 'Edificio W (Industrial)', disp: 97.06, err: 1.5, traf: 60, sat: 88, pos: { x: 41, y: 53 }, ux: "Estable.", devices: [{n:'SW-IND-01', s:'Online'}] },
-            { id: 'B', nombre: 'Biblioteca (Edificio O)', disp: 99.77, err: 0.1, traf: 80, sat: 95, pos: { x: 62, y: 82 }, ux: "Excelente.", devices: [{n:'CORE-BIB-01', s:'Online'}] },
-            { id: 'S', nombre: 'Edificio S (Cómputo)', disp: 99.45, err: 0.2, traf: 100, sat: 90, pos: { x: 50, y: 70 }, ux: "Saturación.", devices: [{n:'SW-COMP-01', s:'Online'}] },
-            { id: 'N', nombre: 'Edificio N (Dirección)', disp: 99.79, err: 0.1, traf: 40, sat: 98, pos: { x: 52, y: 85 }, ux: "Óptimo.", devices: [{n:'SW-DIR-01', s:'Online'}] }
+            // === GRUPO 8 (Punto de Reunión 8 ≈ x:40, y:42) ===
+            // X está a la izquierda del círculo 8, Y está a su derecha
+            { id: 'X', nombre: 'Edificio X (Lab. de Mecatrónica)',                                                disp: 88.66, err: 5.5,  traf: 140, sat: 65, pos: { x: 38, y: 41 }, ux: "Baja potencia.", devices: [{n:'SW-MEC-CORE', s:'Online'}] },
+            { id: 'Y', nombre: 'Edificio Y (Ciencias Económico Administrativo)',                                   disp: 97.9,  err: 0.5,  traf: 80,  sat: 86, pos: { x: 49, y: 80 }, ux: "Estable.",      devices: [{n:'SW-Y-01',     s:'Online'}] },
+            // === GRUPO 6 (Punto de Reunión 6 ≈ x:38, y:52) ===
+            // V es el edificio más a la izquierda del campus (grande)
+            { id: 'V', nombre: 'Edificio V (UNIDA, Lab. de nanotecnología, Invernadero)',                         disp: 96.5,  err: 0.9,  traf: 45,  sat: 80, pos: { x: 34, y: 46 }, ux: "Estable.",      devices: [{n:'SW-V-01',     s:'Online'}] },
+            // W está a la derecha de V, mismo nivel
+            { id: 'W', nombre: 'Edificio W (Lab. de industrial)',                                                 disp: 97.06, err: 1.5,  traf: 60,  sat: 88, pos: { x: 41, y: 49 }, ux: "Estable.",      devices: [{n:'SW-IND-01',   s:'Online'}] },
+            // U está a la derecha de W
+            { id: 'U', nombre: 'Edificio U (Sistemas y computación, Centro de cómputo)',                         disp: 99.45, err: 0.2,  traf: 100, sat: 90, pos: { x: 45, y: 49 }, ux: "Saturación.",   devices: [{n:'SW-COMP-01',  s:'Online'}] },
+            // A está debajo del grupo V/W/U
+            { id: 'A', nombre: 'Edificio A (UDIM)',                                                               disp: 99.77, err: 0.15, traf: 93,  sat: 92, pos: { x: 36, y: 64 }, ux: "Óptimo.",       devices: [{n:'SW-UDIM-01',  s:'Online'}] },
+            // === GRUPO 5 (Punto de Reunión 5 ≈ x:65, y:41) ===
+            // G es el edificio de actividades extraescolares
+            { id: 'G', nombre: 'Edificio G (Actividades extraescolares)',                                         disp: 97.5,  err: 0.5,  traf: 50,  sat: 86, pos: { x: 59, y: 41 }, ux: "Estable.",      devices: [{n:'SW-G-01',     s:'Online'}] },
+            // P está cerca de las canchas deportivas
+            { id: 'P', nombre: 'Edificio P (Coordinación deportiva)',                                             disp: 98.1,  err: 0.4,  traf: 30,  sat: 85, pos: { x: 52, y: 36 }, ux: "Estable.",      devices: [{n:'SW-P-01',     s:'Online'}] },
+            // === GRUPO 4 (Punto de Reunión 4 ≈ x:62, y:56) ===
+            // D, J, K, T en lado derecho del campus
+            { id: 'J', nombre: 'Edificio J (Aulas, Sala Raúl Limón)',                                            disp: 97.8,  err: 0.5,  traf: 75,  sat: 87, pos: { x: 62, y: 50 }, ux: "Estable.",      devices: [{n:'SW-J-01',     s:'Online'}] },
+            { id: 'T', nombre: 'Edificio T (Lab. de eléctrica-electrónica)',                                     disp: 98.7,  err: 0.86, traf: 91,  sat: 89, pos: { x: 64, y: 55 }, ux: "Estable.",      devices: [{n:'SW-T-01',     s:'Online'}] },
+            { id: 'K', nombre: 'Edificio K (Aulas, Ciencias básicas, Aula Magna)',                               disp: 98.2,  err: 0.4,  traf: 85,  sat: 88, pos: { x: 62, y: 61 }, ux: "Estable.",      devices: [{n:'SW-K-01',     s:'Online'}] },
+            { id: 'D', nombre: 'Edificio D (Lab. de química pesada, Lab. de electrónica, Planta Piloto de Bioetanol 2G)', disp: 99.17, err: 0.54, traf: 94, sat: 90, pos: { x: 66, y: 56 }, ux: "Estable.", devices: [{n:'SW-D-01', s:'Online'}] },
+            // === E en el extremo derecho (edificios amarillos) ===
+            { id: 'E', nombre: 'Edificio E (Aulas y cubículos de docentes, Auditorio Fermín Carrillo, Delegación sindical, Comunicación y difusión)', disp: 97.5, err: 0.6, traf: 90, sat: 85, pos: { x: 70, y: 44 }, ux: "Estable.", devices: [{n:'SW-E-01', s:'Online'}] },
+            // === GRUPO 3 (Punto de Reunión 3 ≈ x:54, y:57) ===
+            // H, R, S, F en el centro del campus
+            { id: 'H', nombre: 'Edificio H (Cafetería)',                                                          disp: 97.2,  err: 0.7,  traf: 55,  sat: 82, pos: { x: 49, y: 54 }, ux: "Estable.",      devices: [{n:'SW-H-01',     s:'Online'}] },
+            { id: 'R', nombre: 'Edificio R (Departamento de Ing. industrial)',                                    disp: 97.8,  err: 0.6,  traf: 65,  sat: 85, pos: { x: 53, y: 51 }, ux: "Estable.",      devices: [{n:'SW-R-01',     s:'Online'}] },
+            { id: 'S', nombre: 'Edificio S (Departamento de Ing. Metal-Mecánica)',                                disp: 97.5,  err: 0.7,  traf: 70,  sat: 84, pos: { x: 57, y: 51 }, ux: "Estable.",      devices: [{n:'SW-S-01',     s:'Online'}] },
+            { id: 'F', nombre: 'Edificio F (Aulas Ing. química-bioquímica)',                                      disp: 97.0,  err: 0.8,  traf: 70,  sat: 83, pos: { x: 49, y: 60 }, ux: "Estable.",      devices: [{n:'SW-F-01',     s:'Online'}] },
+            // L — Lab. de química general, al centro-izquierda
+            { id: 'L', nombre: 'Edificio L (Lab. de química general)',                                            disp: 90.46, err: 4.8,  traf: 120, sat: 72, pos: { x: 44, y: 54 }, ux: "Microcortes.",  devices: [{n:'SW-QMC-01',   s:'Online'}] },
+            // === GRUPO 7 (Punto de Reunión 7 ≈ x:46, y:64) ===
+            { id: 'Q', nombre: 'Edificio Q (Aulas Ciencias económico administrativas)',                          disp: 98.7,  err: 0.62, traf: 127, sat: 88, pos: { x: 49, y: 66 }, ux: "Estable.",      devices: [{n:'SW-Q-01',     s:'Online'}] },
+            { id: 'B', nombre: 'Edificio B (Recursos Materiales)',                                                disp: 98.0,  err: 0.4,  traf: 35,  sat: 87, pos: { x: 45, y: 71 }, ux: "Óptimo.",       devices: [{n:'SW-B-01',     s:'Online'}] },
+            { id: 'C', nombre: 'Edificio C (Mantenimiento y equipo)',                                             disp: 97.3,  err: 0.6,  traf: 40,  sat: 84, pos: { x: 35, y: 73 }, ux: "Estable.",      devices: [{n:'SW-C-01',     s:'Online'}] },
+            // === GRUPO 1 (Punto de Reunión 1 ≈ x:53, y:78) ===
+            { id: 'N', nombre: 'Edificio N (Planta alta: Dirección, Subdirección de planeación y vinculación, Subdirección de servicios administrativos, Recursos financieros. Planta baja: Servicios escolares, Recursos humanos, Planeación, programación y presupuestación)', disp: 99.79, err: 0.1, traf: 40, sat: 98, pos: { x: 53, y: 80 }, ux: "Óptimo.", devices: [{n:'SW-DIR-01', s:'Online'}] },
+            { id: 'M', nombre: 'Edificio M (Subdirección académica, Desarrollo académico, División de estudios profesionales, División de estudios de posgrado e investigación)', disp: 99.79, err: 0.2, traf: 38, sat: 97, pos: { x: 57, y: 80 }, ux: "Óptimo.", devices: [{n:'SW-M-01', s:'Online'}] },
+            // === O — Biblioteca (edificio grande verde, abajo derecha) ===
+            { id: 'O', nombre: 'Edificio O (Biblioteca, Centro de información, Gestión tecnológica y vinculación)', disp: 99.77, err: 0.1, traf: 80, sat: 95, pos: { x: 64, y: 73 }, ux: "Excelente.", devices: [{n:'CORE-BIB-01', s:'Online'}] },
         ];
 
         let mainChart;
@@ -345,13 +407,33 @@
             addLogEntry(labMode ? "LAB: Activo." : "LAB: Off.");
         }
 
+        // Tooltip de coordenadas para calibrar el mapa
+        const coordTooltip = document.createElement('div');
+        coordTooltip.id = 'coord-tooltip';
+        coordTooltip.style.cssText = `
+            position:fixed; background:rgba(0,0,0,0.85); color:#00ff88; font-family:'Outfit',monospace;
+            font-size:13px; font-weight:900; padding:8px 14px; border-radius:10px; pointer-events:none;
+            z-index:9999; display:none; letter-spacing:0.05em; border:1px solid #00ff8844;
+            box-shadow: 0 4px 20px rgba(0,255,136,0.3);
+        `;
+        document.body.appendChild(coordTooltip);
+
         document.getElementById('map-container').onclick = (e) => {
-            if(!labMode) return;
             const rect = e.currentTarget.getBoundingClientRect();
             const x = ((e.clientX - rect.left) / rect.width) * 100;
             const y = ((e.clientY - rect.top) / rect.height) * 100;
-            const apData = { x, y, id: Date.now() };
-            saveLabAP(apData); renderLabAP(apData); addLogEntry(`NODO: ${x.toFixed(0)}%`); toggleLabMode();
+
+            // Mostrar tooltip con coordenadas
+            coordTooltip.innerText = `📍 x:${x.toFixed(1)}%  y:${y.toFixed(1)}%`;
+            coordTooltip.style.display = 'block';
+            coordTooltip.style.left = (e.clientX + 15) + 'px';
+            coordTooltip.style.top = (e.clientY - 10) + 'px';
+            setTimeout(() => { coordTooltip.style.display = 'none'; }, 4000);
+
+            if(labMode) {
+                const apData = { x, y, id: Date.now() };
+                saveLabAP(apData); renderLabAP(apData); addLogEntry(`NODO: x:${x.toFixed(1)}% y:${y.toFixed(1)}%`); toggleLabMode();
+            }
         };
 
         function updateMapMode() {
@@ -377,10 +459,46 @@
             let bestId = buildings[0].id; let maxScore = 0;
             buildings.forEach(b => { const s = (parseFloat(b.disp) * 0.7) + ((100 - (b.traf/2)) * 0.3); if(s > maxScore) { maxScore = s; bestId = b.id; } });
             buildings.forEach(b => {
-                const marker = document.createElement('div'); const isBest = b.id === bestId;
-                marker.className = `absolute w-4 md:w-5 h-4 md:h-5 rounded-full border-2 border-white shadow-lg cursor-pointer marker-pulse z-30 ${b.disp < 92 ? 'bg-tecnm-red' : 'bg-tecnm-blue'} ${isBest ? 'best-node-glow bg-tecnm-green border-tecnm-green' : ''}`;
-                marker.style.top = b.pos.y + '%'; marker.style.left = b.pos.x + '%'; marker.style.transform = 'translate(-50%, -50%)';
-                marker.onclick = (e) => { e.stopPropagation(); showDrilldown(b); }; container.appendChild(marker);
+                const isBest = b.id === bestId;
+                const isCritical = b.disp < 92;
+                const bgColor = isBest ? '#2A9D8F' : (isCritical ? '#E63946' : '#1B396A');
+                const borderColor = isBest ? '#2A9D8F' : (isCritical ? '#E63946' : '#fff');
+
+                // Wrapper positioner
+                const wrapper = document.createElement('div');
+                wrapper.style.cssText = `position:absolute; top:${b.pos.y}%; left:${b.pos.x}%; transform:translate(-50%,-50%); z-index:30; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:2px;`;
+                wrapper.title = b.nombre;
+
+                // Marker circle with letter
+                const marker = document.createElement('div');
+                marker.style.cssText = `
+                    width:22px; height:22px; border-radius:50%;
+                    background:${bgColor}; border:2.5px solid #fff;
+                    box-shadow:0 2px 8px rgba(0,0,0,0.4);
+                    display:flex; align-items:center; justify-content:center;
+                    color:#fff; font-size:9px; font-weight:900; font-family:'Outfit',sans-serif;
+                    ${isBest ? 'box-shadow:0 0 12px 4px rgba(42,157,143,0.7),0 2px 8px rgba(0,0,0,0.4);' : ''}
+                    ${isCritical ? 'animation:marker-pulse 1.5s infinite;' : ''}
+                `;
+                marker.innerText = b.id;
+
+                // Label below marker
+                const label = document.createElement('div');
+                label.style.cssText = `
+                    background:rgba(27,57,106,0.92); color:#fff;
+                    font-size:7px; font-weight:900; font-family:'Outfit',sans-serif;
+                    padding:1px 4px; border-radius:4px; white-space:nowrap;
+                    pointer-events:none; letter-spacing:0.04em; max-width:70px;
+                    overflow:hidden; text-overflow:ellipsis;
+                    ${isCritical ? 'background:rgba(230,57,70,0.92);' : ''}
+                    ${isBest ? 'background:rgba(42,157,143,0.95);' : ''}
+                `;
+                label.innerText = `Edif. ${b.id}`;
+
+                wrapper.appendChild(marker);
+                wrapper.appendChild(label);
+                wrapper.onclick = (e) => { e.stopPropagation(); showDrilldown(b); };
+                container.appendChild(wrapper);
             });
         }
 

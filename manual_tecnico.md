@@ -14,7 +14,7 @@ El objetivo es transformar datos fríos (Mbps, % de disponibilidad) en diagnóst
 
 #### 1.2 Topología Lógica y Física
 - **Arquitectura de Software (Lógica):** La solución opera bajo un esquema desacoplado. Por un lado, los scripts de Python 3 (`correlacion_itver.py` y `generar_datos_itver.py`) fungen como el motor de ETL (Extracción, Transformación y Carga) procesando los logs CSV. Por otro lado, un servidor Node.js/Vite levanta una aplicación React que renderiza estos datos en un dashboard interactivo en tiempo real.
-- **Topología Física Actual (Cascada):** La infraestructura actual de los 12 edificios principales se rige por un esquema en cascada. Esto ha sido diagnosticado como el causante de una severa degradación en la zona norte (Edificio X - Mecatrónica y Edificio L - Química), donde los fallos de un nodo se propagan, generando cuellos de botella superiores a los 160 Mbps en horas pico (11:00 a 15:00 h).
+- **Topología Física Actual (Cascada):** La infraestructura actual de los 12 edificios principales se rige por un esquema en cascada. Esto ha sido diagnosticado como el causante de una severa degradación en la zona norte (Edificio X - Lab. de Mecatrónica y Edificio L - Lab. de química general), donde los fallos de un nodo se propagan, generando cuellos de botella superiores a los 160 Mbps en horas pico (11:00 a 15:00 h).
 - **Topología Propuesta (Estrella Simulada):** El sistema proyecta la migración hacia una arquitectura en Estrella. En este diseño, todos los nodos de distribución se conectan independientemente al Core de Biblioteca (`CORE-BIB-01`) a través de un Backbone de fibra monomodo de 10G. Al conmutar el simulador del NOC a esta topología, la lógica del sistema recalcula y garantiza una mitigación de fallas, elevando la disponibilidad de la red al 98.80%.
 
 ---
@@ -23,11 +23,11 @@ El objetivo es transformar datos fríos (Mbps, % de disponibilidad) en diagnóst
 
 #### 2.1 Hardware de Red Monitoreado
 La plataforma trackea el estatus de los siguientes equipos de interconexión. El mapeo en la plataforma asocia un dispositivo principal a cada zona:
-- `SW-MEC-CORE`: Cisco Catalyst 2960 (Edificio X - Mecatrónica) - *Estado Crítico.*
-- `SW-QMC-01`: Cisco Catalyst 2960 (Edificio L - Química) - *Estado Crítico.*
-- `SW-IND-01`: Cisco Catalyst 2960 (Edificio W - Industrial).
-- `SW-COMP-01`: Cisco Catalyst 2960 (Edificio S - Cómputo).
-- `SW-DIR-01`: Cisco Catalyst 2960 (Edificio N - Dirección).
+- `SW-MEC-CORE`: Cisco Catalyst 2960 (Edificio X - Lab. de Mecatrónica) - *Estado Crítico.*
+- `SW-QMC-01`: Cisco Catalyst 2960 (Edificio L - Lab. de química general) - *Estado Crítico.*
+- `SW-IND-01`: Cisco Catalyst 2960 (Edificio W - Lab. de industrial).
+- `SW-COMP-01`: Cisco Catalyst 2960 (Edificio U - Sistemas y computación, Centro de cómputo).
+- `SW-DIR-01`: Cisco Catalyst 2960 (Edificio N - Planta alta: Dirección, Subdirección de planeación y vinculación, Subdirección de servicios administrativos, Recursos financieros. Planta baja: Servicios escolares, Recursos humanos, Planeación, programación y presupuestación).
 - `CORE-BIB-01`: Nodo Core (Biblioteca Central) - *Nodo de control estable.*
 Adicionalmente, se administran de forma dinámica puntos de acceso inalámbrico representados en el mapa mediante la clase `.lab-ap`. Se prevé teóricamente una actualización a Switches Catalyst 9000 y APs Wi-Fi 6 AX.
 
@@ -77,7 +77,7 @@ El corazón del análisis recae en la carpeta `/scripts`. La inyección de datos
    ```bash
    python scripts/correlacion_itver.py
    ```
-   *El script normaliza automáticamente los nombres mediante un diccionario (ej. 'Edificio O' -> 'Edificio O (Biblioteca)'), convierte textos Likert ('1 (Totalmente en desacuerdo)') a enteros numéricos (1), y compila el archivo final.*
+   *El script normaliza automáticamente los nombres mediante un diccionario (ej. 'Edificio O' -> 'Edificio O (Biblioteca, Centro de información, Gestión tecnológica y vinculación)'), convierte textos Likert ('1 (Totalmente en desacuerdo)') a enteros numéricos (1), y compila el archivo final.*
    *Salida:* `matriz_correlacion_ITVER.csv`
 
 #### 3.3 Integración de Nuevos Dispositivos al Frontend

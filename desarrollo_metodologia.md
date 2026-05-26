@@ -13,12 +13,12 @@ La ejecución del proyecto requirió la utilización de recursos técnicos que s
 ### A. Hardware e Infraestructura Analizada
 La infraestructura física y de red auditada como base de estudio comprende los siguientes elementos:
 1. **Equipos de Conmutación (Switches):** Se auditaron y registraron dispositivos de red correspondientes a modelos Cisco Catalyst 2960 de la topología activa en cascada. Los nodos específicos identificados en la red son:
-   - `SW-MEC-CORE` (Edificio X - Mecatrónica).
-   - `SW-QMC-01` (Edificio L - Química).
-   - `SW-IND-01` (Edificio W - Industrial).
-   - `CORE-BIB-01` (Edificio O - Biblioteca Central).
-   - `SW-COMP-01` (Edificio S - Cómputo).
-   - `SW-DIR-01` (Edificio N - Dirección).
+   - `SW-MEC-CORE` (Edificio X - Lab. de Mecatrónica).
+   - `SW-QMC-01` (Edificio L - Lab. de química general).
+   - `SW-IND-01` (Edificio W - Lab. de industrial).
+   - `CORE-BIB-01` (Edificio O - Biblioteca, Centro de información, Gestión tecnológica y vinculación).
+   - `SW-COMP-01` (Edificio U - Sistemas y computación, Centro de cómputo).
+   - `SW-DIR-01` (Edificio N - Planta alta: Dirección, Subdirección de planeación y vinculación, Subdirección de servicios administrativos, Recursos financieros. Planta baja: Servicios escolares, Recursos humanos, Planeación, programación y presupuestación).
 2. **Puntos de Acceso Inalámbrico (Access Points):** Dispositivos de distribución Wi-Fi mapeados mediante coordenadas dinámicas en la plataforma (`lab-ap`). Para la etapa de optimización, se contempla teóricamente la integración de equipos con estándar Wi-Fi 6 AX para alta densidad concurrente.
 3. **Backbone de Comunicaciones:** Enlaces físicos interconectores que, en el plan de optimización tecnológica proyectado para 2026, corresponden a un tendido de fibra óptica monomodo certificada para un Backbone a velocidades de 10 Gbps (10G).
 4. **Infraestructura de Procesamiento:** Una estación de trabajo local configurada bajo arquitectura Windows para el alojamiento del servidor de desarrollo y el procesamiento de los scripts.
@@ -76,7 +76,7 @@ El desarrollo y procesamiento se ejecutó de manera cronológica en tres fases o
 
 ### Fase 3: Pruebas y Análisis de Resultados
 1. Se cruzaron las métricas técnicas y las encuestas sociales mediante sentencias de unión en Pandas, consolidando la matriz final en el archivo `matriz_correlacion_ITVER.csv`.
-2. Se procedió al análisis de los resultados para localizar las fallas. El sistema detectó exitosamente que el Edificio X (Mecatrónica) y el Edificio L (Química) conformaban el epicentro de la degradación, comprobando la eficacia del modelo predictivo desarrollado.
+2. Se procedió al análisis de los resultados para localizar las fallas. El sistema detectó exitosamente que el Edificio X (Lab. de Mecatrónica) y el Edificio L (Lab. de química general) conformaban el epicentro de la degradación, comprobando la eficacia del modelo predictivo desarrollado.
 3. Se comprobó el módulo de simulación tecnológica del dashboard. Al conmutar de la topología "Actual (Cascada)" a la topología "Propuesta (Estrella)", el algoritmo incrementó la disponibilidad de los nodos críticos hasta un 98.80% estable de forma automática, validando la factibilidad del plan de mejora estructural.
 4. Se verificó el funcionamiento del módulo de exportación de datos, permitiendo al administrador descargar el reporte correlacionado en formato CSV para su archivo.
 
@@ -86,10 +86,10 @@ El desarrollo y procesamiento se ejecutó de manera cronológica en tres fases o
 La investigación se realizó debido a la detección y confirmación analítica de problemas severos en el rendimiento de la red actual, cuya topología física en configuración de "Cascada" provoca puntos únicos de falla.
 
 Al cruzar los datos en la matriz de correlación, se comprobó estadísticamente una degradación crítica en la zona norte del campus:
-- El **Edificio X (Mecatrónica)** operaba en niveles de colapso, exhibiendo una disponibilidad promedio del **88.66%**, picos de tráfico excesivo que superaban los **162.41 Mbps** (entre las 11:00 y las 15:00 horas), y una severa tasa de error del **7.15%**.
-- El **Edificio L (Química)** mostraba un patrón similar, con una disponibilidad del **90.46%** y una tasa de error del **5.06%**.
+- El **Edificio X (Lab. de Mecatrónica)** operaba en niveles de colapso, exhibiendo una disponibilidad promedio del **88.66%**, picos de tráfico excesivo que superaban los **162.41 Mbps** (entre las 11:00 y las 15:00 horas), y una severa tasa de error del **7.15%**.
+- El **Edificio L (Lab. de química general)** mostraba un patrón similar, con una disponibilidad del **90.46%** y una tasa de error del **5.06%**.
 
-Estas ineficiencias de hardware afectaron significativamente a la comunidad estudiantil. La degradación física correlacionó con exactitud con un déficit de evaluación social: en Mecatrónica, la satisfacción de usuario promedió **2.85** sobre 5; mientras que en Química fue de **2.97**. Las evaluaciones cualitativas en las encuestas sustentaron la urgencia del proyecto con reportes tales como: *"Baja potencia. En el edificio X no hay señal, siempre uso datos"*, *"La conexión es intermitente y se satura mucho"*, e *"Es imposible subir archivos pesados en hora pico"*.
+Estas ineficiencias de hardware afectaron significativamente a la comunidad estudiantil. La degradación física correlacionó con exactitud con un déficit de evaluación social: en el Lab. de Mecatrónica, la satisfacción de usuario promedió **2.85** sobre 5; mientras que en el Lab. de química general fue de **2.97**. Las evaluaciones cualitativas en las encuestas sustentaron la urgencia del proyecto con reportes tales como: *"Baja potencia. En el edificio X no hay señal, siempre uso datos"*, *"La conexión es intermitente y se satura mucho"*, e *"Es imposible subir archivos pesados en hora pico"*.
 
 ---
 

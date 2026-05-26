@@ -337,12 +337,12 @@ export default function App() {
                     {/* Simulated Buildings */}
                     <g className="buildings">
                       {[
-                        { id: 'X', x: 100, y: 100, w: 120, h: 80, label: 'Edificio X', color: '#E63946', stat: '88.6%' },
-                        { id: 'L', x: 250, y: 80, w: 100, h: 100, label: 'Edificio L', color: '#E63946', stat: '90.5%' },
-                        { id: 'W', x: 400, y: 120, w: 120, h: 60, label: 'Edificio W', color: '#F59E0B', stat: '97.1%' },
-                        { id: 'Biblio', x: 150, y: 250, w: 150, h: 120, label: 'Biblioteca', color: '#2A9D8F', stat: '99.8%' },
-                        { id: 'Admin', x: 450, y: 250, w: 200, h: 100, label: 'Administrativos', color: '#2A9D8F', stat: '99.7%' },
-                        { id: 'UDIM', x: 600, y: 50, w: 100, h: 150, label: 'UDIM', color: '#2A9D8F', stat: '99.8%' },
+                        { id: 'X', x: 100, y: 100, w: 120, h: 80, label: 'Edificio X', fullName: 'Edificio X (Lab. de Mecatrónica)', color: '#E63946', stat: '88.6%' },
+                        { id: 'L', x: 250, y: 80, w: 100, h: 100, label: 'Edificio L', fullName: 'Edificio L (Lab. de química general)', color: '#E63946', stat: '90.5%' },
+                        { id: 'W', x: 400, y: 120, w: 120, h: 60, label: 'Edificio W', fullName: 'Edificio W (Lab. de industrial)', color: '#F59E0B', stat: '97.1%' },
+                        { id: 'O', x: 150, y: 250, w: 150, h: 120, label: 'Biblioteca', fullName: 'Edificio O (Biblioteca, Centro de información, Gestión tecnológica y vinculación)', color: '#2A9D8F', stat: '99.8%' },
+                        { id: 'N', x: 450, y: 250, w: 200, h: 100, label: 'Administrativos', fullName: 'Edificio N (Planta alta: Dirección, Subdirección de planeación y vinculación, Subdirección de servicios administrativos, Recursos financieros. Planta baja: Servicios escolares, Recursos humanos, Planeación, programación y presupuestación)', color: '#2A9D8F', stat: '99.7%' },
+                        { id: 'A', x: 600, y: 50, w: 100, h: 150, label: 'UDIM', fullName: 'Edificio A (UDIM)', color: '#2A9D8F', stat: '99.8%' },
                       ].map((b, i) => (
                         <motion.g 
                           key={i} 
@@ -371,7 +371,7 @@ export default function App() {
                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 glass p-6 rounded-2xl shadow-2xl w-72"
                    >
                      <div className="flex justify-between items-start mb-4">
-                        <h4 className="text-xl font-bold text-tecnm-blue">{selectedBuilding.label}</h4>
+                        <h4 className="text-xl font-bold text-tecnm-blue">{selectedBuilding.fullName || selectedBuilding.label}</h4>
                         <button onClick={() => setSelectedBuilding(null)}><X className="w-5 h-5 text-slate-400" /></button>
                      </div>
                      <div className="space-y-3">

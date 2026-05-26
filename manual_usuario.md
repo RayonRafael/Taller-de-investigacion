@@ -94,7 +94,7 @@ Toda la página está construida en una sola pantalla larga, por lo que nunca te
 
 **Flujo 2: Cómo enviar un reporte si falla el internet**  
 1. Desliza hasta casi el final de la página, a la sección **"Incidencia Manual"** (identificable por su recuadro blanco).
-2. Haz clic en el primer recuadro (la lista desplegable) y selecciona el nombre del edificio o área donde te encuentras (por ejemplo, "Edificio L (Química)").
+2. Haz clic en el primer recuadro (la lista desplegable) y selecciona el nombre del edificio o área donde te encuentras (por ejemplo, "Edificio L (Lab. de química general)").
 3. En el **cuadro de texto grande** de abajo, escribe detalladamente qué está pasando (Ej. *"El internet está muy lento, me saca de la red y no puedo subir mi tarea"*).
 4. Haz clic en el botón azul grande **"ENVIAR AL NOC"**.
 5. Te aparecerá un pequeño aviso confirmando que tu queja ha sido enviada.
@@ -161,6 +161,6 @@ Entendemos que la tecnología a veces puede fallar. Si experimentas algún probl
 
 - **Correo electrónico de ayuda:** soporte.redes@itver.edu.mx
 - **Teléfono (Centro de Cómputo):** (229) 123 4567, Extensión 101.
-- **Atención presencial:** Puedes acudir al Edificio S (Centro de Cómputo) en horario de 8:00 a.m. a 4:00 p.m.
+- **Atención presencial:** Puedes acudir al Edificio U (Sistemas y computación, Centro de cómputo) en horario de 8:00 a.m. a 4:00 p.m.
 
 *💡 Consejo Clave:* Cuando nos contactes, **indícanos siempre qué navegador estás utilizando (ej. Chrome o Safari) y desde qué edificio estás intentando conectarte**. ¡Eso nos ayudará a identificar y resolver tu problema muchísimo más rápido!

@@ -1,16 +1,15 @@
 export const metricsData = [
   { edificio: 'Edificio A (UDIM)', disponibilidad: 99.77, errores: 0.15, traficoMax: 93.45, satisfaccion: 4.2 },
-  { edificio: 'Edificio L (Química)', disponibilidad: 90.46, errores: 5.05, traficoMax: 148.73, satisfaccion: 2.97 },
-  { edificio: 'Edificio X (Mecatrónica)', disponibilidad: 88.66, errores: 7.15, traficoMax: 162.41, satisfaccion: 2.85 },
-  { edificio: 'Edificio W (Industrial)', disponibilidad: 97.06, errores: 1.66, traficoMax: 107.79, satisfaccion: 3.03 },
-  { edificio: 'Edificio Q (Económico)', disponibilidad: 98.7, errores: 0.62, traficoMax: 127.21, satisfaccion: 3.8 },
-  { edificio: 'Biblioteca', disponibilidad: 99.77, errores: 0.2, traficoMax: 75.01, satisfaccion: 4.5 },
-  { edificio: 'Edificio S (Cómputo)', disponibilidad: 99.45, errores: 0.3, traficoMax: 109.18, satisfaccion: 4.1 },
-  { edificio: 'Edificio N (Dirección)', disponibilidad: 99.74, errores: 0.28, traficoMax: 58.45, satisfaccion: 4.3 },
-  { edificio: 'Edificio M (Admin)', disponibilidad: 99.79, errores: 0.21, traficoMax: 58.74, satisfaccion: 4.4 },
-  { edificio: 'Edificio O (Biblioteca)', disponibilidad: 99.53, errores: 0.35, traficoMax: 80.1, satisfaccion: 3.1 },
-  { edificio: 'Edificio T (Eléctrica)', disponibilidad: 98.7, errores: 0.86, traficoMax: 91.53, satisfaccion: 3.9 },
-  { edificio: 'Edificio D (Química/Lab)', disponibilidad: 99.17, errores: 0.54, traficoMax: 94.33, satisfaccion: 3.7 },
+  { edificio: 'Edificio L (Lab. de química general)', disponibilidad: 90.46, errores: 5.05, traficoMax: 148.73, satisfaccion: 2.97 },
+  { edificio: 'Edificio X (Lab. de Mecatrónica)', disponibilidad: 88.66, errores: 7.15, traficoMax: 162.41, satisfaccion: 2.85 },
+  { edificio: 'Edificio W (Lab. de industrial)', disponibilidad: 97.06, errores: 1.66, traficoMax: 107.79, satisfaccion: 3.03 },
+  { edificio: 'Edificio Q (Aulas Ciencias económico administrativas)', disponibilidad: 98.7, errores: 0.62, traficoMax: 127.21, satisfaccion: 3.8 },
+  { edificio: 'Edificio O (Biblioteca, Centro de información, Gestión tecnológica y vinculación)', disponibilidad: 99.77, errores: 0.2, traficoMax: 75.01, satisfaccion: 4.5 },
+  { edificio: 'Edificio U (Sistemas y computación, Centro de cómputo)', disponibilidad: 99.45, errores: 0.3, traficoMax: 109.18, satisfaccion: 4.1 },
+  { edificio: 'Edificio N (Planta alta: Dirección, Subdirección de planeación y vinculación, Subdirección de servicios administrativos, Recursos financieros. Planta baja: Servicios escolares, Recursos humanos, Planeación, programación y presupuestación)', disponibilidad: 99.74, errores: 0.28, traficoMax: 58.45, satisfaccion: 4.3 },
+  { edificio: 'Edificio M (Subdirección académica, Desarrollo académico, División de estudios profesionales, División de estudios de posgrado e investigación)', disponibilidad: 99.79, errores: 0.21, traficoMax: 58.74, satisfaccion: 4.4 },
+  { edificio: 'Edificio T (Lab. de eléctrica-electrónica)', disponibilidad: 98.7, errores: 0.86, traficoMax: 91.53, satisfaccion: 3.9 },
+  { edificio: 'Edificio D (Lab. de química pesada, Lab. de electrónica, Planta Piloto de Bioetanol 2G)', disponibilidad: 99.17, errores: 0.54, traficoMax: 94.33, satisfaccion: 3.7 },
 ];
 
 export const hourlyTraffic = [
@@ -28,9 +27,9 @@ export const hourlyTraffic = [
 ];
 
 export const quotes = [
-  { text: "En el edificio X no hay señal, siempre uso datos", building: "Edificio X", author: "Estudiante de Mecatrónica" },
-  { text: "La conexión es intermitente y se satura mucho", building: "Edificio L", author: "Estudiante de Química" },
-  { text: "Es imposible subir archivos pesados en hora pico", building: "Edificio X", author: "Estudiante de Posgrado" },
+  { text: "En el edificio X no hay señal, siempre uso datos", building: "Edificio X (Lab. de Mecatrónica)", author: "Estudiante de Mecatrónica" },
+  { text: "La conexión es intermitente y se satura mucho", building: "Edificio L (Lab. de química general)", author: "Estudiante de Química" },
+  { text: "Es imposible subir archivos pesados en hora pico", building: "Edificio X (Lab. de Mecatrónica)", author: "Estudiante de Posgrado" },
 ];
 
 export const recommendations = [

@@ -2,14 +2,14 @@ import pandas as pd
 import numpy as np
 
 # ==================== CARGA DE DATOS ====================
-print("📂 Cargando datos...")
+print("[INFO] Cargando datos...")
 
 try:
     metricas = pd.read_csv('metricas_itver.csv')
     encuestas = pd.read_csv('Diagnóstico de Calidad de Servicio (QoS) y Experiencia de Usuario - Red ITVER (Respuestas) - Respuestas de formulario 1.csv')
-    print("✅ Archivos cargados correctamente.")
+    print("[OK] Archivos cargados correctamente.")
 except FileNotFoundError as e:
-    print(f"❌ Error: No se encontró el archivo. Verifica que los CSV estén en la misma carpeta.")
+    print(f"[ERROR] No se encontro el archivo. Verifica que los CSV esten en la misma carpeta.")
     exit()
 
 # Limpieza inicial de nombres de columnas (elimina espacios extra al inicio/final)
@@ -17,17 +17,47 @@ encuestas.columns = encuestas.columns.str.strip()
 metricas.columns = metricas.columns.str.strip()
 
 # ==================== PROCESAMIENTO DE ENCUESTAS ====================
-print("📊 Procesando encuestas...")
+print("[INFO] Procesando encuestas...")
 
 # 1. Mapeo de Edificios (Normalización de nombres)
 mapeo_edificios = {
-    'Edificio O': 'Edificio O (Biblioteca)',
-    'Edificio E': 'Edificio E',
-    'Edificio U': 'Edificio U',
-    'Edificio W': 'Edificio W (Industrial)',
-    'Edificio L': 'Edificio L (Química)',
-    'Edificio X': 'Edificio X (Mecatrónica)',
-    'Edificio K': 'Edificio K',
+    'Edificio O': 'Edificio O (Biblioteca, Centro de información, Gestión tecnológica y vinculación)',
+    'O': 'Edificio O (Biblioteca, Centro de información, Gestión tecnológica y vinculación)',
+    
+    'Edificio A': 'Edificio A (UDIM)',
+    'A': 'Edificio A (UDIM)',
+    
+    'Edificio E': 'Edificio E (Aulas y cubículos de docentes, Auditorio Fermín Carrillo, Delegación sindical, Comunicación y difusión)',
+    'E': 'Edificio E (Aulas y cubículos de docentes, Auditorio Fermín Carrillo, Delegación sindical, Comunicación y difusión)',
+    
+    'Edificio U': 'Edificio U (Sistemas y computación, Centro de cómputo)',
+    'U': 'Edificio U (Sistemas y computación, Centro de cómputo)',
+    
+    'Edificio W': 'Edificio W (Lab. de industrial)',
+    'W': 'Edificio W (Lab. de industrial)',
+    
+    'Edificio L': 'Edificio L (Lab. de química general)',
+    'L': 'Edificio L (Lab. de química general)',
+    
+    'Edificio X': 'Edificio X (Lab. de Mecatrónica)',
+    'X': 'Edificio X (Lab. de Mecatrónica)',
+    
+    'Edificio K': 'Edificio K (Aulas, Ciencias básicas, Aula Magna)',
+    'K': 'Edificio K (Aulas, Ciencias básicas, Aula Magna)',
+    
+    'Edificio D': 'Edificio D (Lab. de química pesada, Lab. de electrónica, Planta Piloto de Bioetanol 2G)',
+    'D': 'Edificio D (Lab. de química pesada, Lab. de electrónica, Planta Piloto de Bioetanol 2G)',
+    
+    'Edificio N': 'Edificio N (Planta alta: Dirección, Subdirección de planeación y vinculación, Subdirección de servicios administrativos, Recursos financieros. Planta baja: Servicios escolares, Recursos humanos, Planeación, programación y presupuestación)',
+    'N': 'Edificio N (Planta alta: Dirección, Subdirección de planeación y vinculación, Subdirección de servicios administrativos, Recursos financieros. Planta baja: Servicios escolares, Recursos humanos, Planeación, programación y presupuestación)',
+    
+    'Edificio M': 'Edificio M (Subdirección académica, Desarrollo académico, División de estudios profesionales, División de estudios de posgrado e investigación)',
+    'M': 'Edificio M (Subdirección académica, Desarrollo académico, División de estudios profesionales, División de estudios de posgrado e investigación)',
+    
+    'Edificio T': 'Edificio T (Lab. de eléctrica-electrónica)',
+    'T': 'Edificio T (Lab. de eléctrica-electrónica)',
+
+    'Biblioteca': 'Edificio O (Biblioteca, Centro de información, Gestión tecnológica y vinculación)',
     'Palomar': 'Palomar',
     'Escuela': 'General',
     'Casa': 'Externo',
@@ -73,7 +103,7 @@ satisfaccion_por_edificio = encuestas.groupby('Edificio_Normalizado').agg(
 satisfaccion_por_edificio = satisfaccion_por_edificio.reset_index()
 
 # ==================== PROCESAMIENTO DE MÉTRICAS TÉCNICAS ====================
-print("⚙️ Procesando métricas técnicas...")
+print("[INFO] Procesando metricas tecnicas...")
 
 metricas_por_edificio = metricas.groupby('Edificio').agg(
     InOctets_Promedio=('InOctets (Mbps)', 'mean'),
@@ -90,7 +120,7 @@ metricas_por_edificio['Tasa_Error_Promedio'] = (
 ).round(3) # Corrección lógica: usar tráfico total como denominador
 
 # ==================== CORRELACIÓN ====================
-print("🔗 Cruzando datos (Técnico vs Usuario)...")
+print("[INFO] Cruzando datos (Tecnico vs Usuario)...")
 
 correlacion = pd.merge(metricas_por_edificio, satisfaccion_por_edificio, 
                        left_on='Edificio', right_on='Edificio_Normalizado', how='outer')
@@ -122,9 +152,9 @@ resultado_final = correlacion[final_cols].sort_values('Satisfaccion_Promedio')
 resultado_final.to_csv('matriz_correlacion_ITVER.csv', index=False, encoding='utf-8-sig')
 
 print("\n" + "="*60)
-print("🚀 ¡ANÁLISIS COMPLETADO CON ÉXITO!")
+print("[OK] ANALISIS COMPLETADO CON EXITO!")
 print("="*60)
-print("📄 Se ha generado: 'matriz_correlacion_ITVER.csv'")
-print(" Edificios Críticos (Disp < 92%):")
+print("[INFO] Se ha generado: 'matriz_correlacion_ITVER.csv'")
+print(" Edificios Criticos (Disp < 92%):")
 print(correlacion[correlacion['Disponibilidad_Promedio'] < 92][['Edificio', 'Disponibilidad_Promedio', 'Satisfaccion_Promedio']])
 print("="*60)
